@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('content_types', function (Blueprint $table) {
             $table->id();
             $table->string('label', 64)->nullable()->default(null);
-            $table->string('content_type', 32)->unique();
+            $table->string('type', 32)->unique();
             $table->boolean('editable')->default(true);
             $table->integer('order_no')->unsigned()->nullable();
             $table->string('icon', 64)->nullable();

@@ -11,12 +11,11 @@ class ModuleServiceProvider extends LaravelServiceProvider
     {
         // Register DI services
         $this->app->register(ServiceProvider::class);
-//
+        //
         // Register app required service providers
         $this->app->register(ConfigServiceProvider::class);
         $this->app->register(LangServiceProvider::class);
         $this->app->register(RouteServiceProvider::class);
-
 
         // Register commands
         $this->registerCommands();

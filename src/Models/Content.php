@@ -1,0 +1,80 @@
+<?php
+
+namespace Wave8\Factotum\Cms\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Wave8\Factotum\Cms\Casts\ContentContentCast;
+use Wave8\Factotum\Cms\Enums\ContentEditorType;
+
+class Content extends Model
+{
+    protected $fillable = [
+        'content_type_id',
+        'user_id',
+        'parent_id',
+        'status',
+        'title',
+        'content',
+        'builder',
+        'editor_type',
+        'url',
+        'abs_url',
+        'lang',
+        'show_in_menu',
+        'is_home',
+        'order_no',
+        'seo_title',
+        'seo_description',
+        'seo_canonical_url',
+        'seo_robots_indexing',
+        'seo_robots_following',
+        'seo_focus_key',
+        'fb_title',
+        'fb_description',
+        'fb_image',
+        'created_at',
+        'updated_at',
+    ];
+
+    protected $casts = [
+        'show_in_menu' => 'boolean',
+        'is_home' => 'boolean',
+        'builder' => 'array',
+        'content' => ContentContentCast::class,
+        'editor_type' => ContentEditorType::class,
+    ];
+
+    protected $searchable = [
+        'title',
+        'content',
+    ];
+
+    public function content_type(): BelongsTo
+    {
+        return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class)->withTimestamps();
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Content::class, 'parent_id');
+    }
+
+    public function children(): HasMany
+    {
+        return $this->hasMany(Content::class, 'parent_id', 'id');
+    }
+}

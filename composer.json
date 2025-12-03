@@ -9,7 +9,7 @@
     ],
     "require": {
         "php": "^8.4",
-        "wave8/factotum-base": "^1.6"
+        "wave8/factotum-base": "dev-develop"
     },
     "require-dev": {
         "laravel/pint": "^1.25",
@@ -27,6 +27,15 @@
             "Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./../factotum-base",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
     "scripts": {
         "lint": "pint --parallel",
         "test:lint": "pint --parallel --test",

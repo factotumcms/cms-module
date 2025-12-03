@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Wave8\Factotum\Base\Models\User;
 
 final class FactotumCmsServiceProvider extends ServiceProvider
 {
@@ -24,10 +23,7 @@ final class FactotumCmsServiceProvider extends ServiceProvider
         //
     }
 
-    private function registerModelBindings(): void
-    {
-
-    }
+    private function registerModelBindings(): void {}
 
     private function registerServiceBindings(): void
     {

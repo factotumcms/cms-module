@@ -115,7 +115,6 @@ EOT
     private function ensureVendorMigrationsNotPublished(): bool
     {
         $migrations = collect([
-
         ])->reject(fn (string $name) => $this->getMigrationPath($name) === null);
 
         if ($migrations->isEmpty()) {
@@ -201,7 +200,7 @@ EOT);
             return;
         }
 
-//        $this->files->copy(__DIR__.'/../../../stubs/app/Models/User.php', app_path('Models/User.php'));
+        //        $this->files->copy(__DIR__.'/../../../stubs/app/Models/User.php', app_path('Models/User.php'));
     }
 
     private function publishProviders(): void

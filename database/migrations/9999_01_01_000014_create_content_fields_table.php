@@ -16,10 +16,8 @@ return new class extends Migration
             $table->bigInteger('content_type_id')->unsigned();
             $table->foreign('content_type_id')->references('id')->on('content_types')->onDelete('cascade');
             $table->string('name', 50);
-            $table->string('old_name')->nullable();
             $table->string('label', 50);
             $table->string('type', 50);
-            $table->string('old_type', 50)->nullable();
             $table->integer('order_no')->unsigned()->nullable();
             $table->boolean('mandatory')->nullable();
             $table->boolean('readonly')->nullable();
@@ -34,8 +32,10 @@ return new class extends Migration
             $table->text('resizes')->nullable();
             $table->bigInteger('linked_content_type_id')->unsigned()->nullable()->default(null);
             $table->foreign('linked_content_type_id')->references('id')->on('content_types')->onDelete('cascade');
-            $table->json('rules')->nullable(false);
-            $table->unique(array('content_type_id', 'name'));
+            $table->json('visibility_rules')->nullable(false)->default(DB::raw("('[]')"));
+            $table->json('mandatory_rules')->nullable(false)->default(DB::raw("('[]')"));
+
+            $table->unique(['content_type_id', 'name']);
             $table->timestamps();
         });
     }

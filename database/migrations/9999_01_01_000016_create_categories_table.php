@@ -17,10 +17,9 @@ return new class extends Migration
             $table->foreignId('content_type_id')->constrained()->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('categories')->onDelete('cascade');
 
-
             $table->string('name', 50);
             $table->string('label', 255);
-            $table->string('abs_url', 255 )->nullable();
+            $table->string('abs_url', 255)->nullable();
             $table->text('description')->nullable();
             $table->string('lang', 5);
             $table->integer('order_no')->nullable();
