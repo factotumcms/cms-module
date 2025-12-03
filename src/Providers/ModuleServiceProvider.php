@@ -1,12 +1,8 @@
 <?php
 
-namespace Wave8\Factotum\Base\Providers;
+namespace Wave8\Factotum\Cms\Providers;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Spatie\TranslationLoader\TranslationServiceProvider;
-use Wave8\Factotum\Base\Console\Commands\DispatchGenerateImageConversions;
-use Wave8\Factotum\Base\Console\Commands\Install;
-use Wave8\Factotum\Base\Console\Commands\PrunePasswordHistories;
 
 class ModuleServiceProvider extends LaravelServiceProvider
 {
@@ -14,7 +10,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     {
         // Register DI services
         $this->app->register(ServiceProvider::class);
-
+//
         // Register app required service providers
         $this->app->register(ConfigServiceProvider::class);
         $this->app->register(LangServiceProvider::class);
