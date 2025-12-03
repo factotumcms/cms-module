@@ -1,0 +1,33 @@
+laravel: '@testbench'
+
+providers:
+  - Wave8\Factotum\Base\Providers\ModuleServiceProvider
+
+migrations:
+  - database/migrations
+
+seeders:
+
+workbench:
+  start: '/'
+  install: true
+  health: false
+  discovers:
+    web: true
+    api: true
+    commands: true
+    components: false
+    factories: true
+    views: false
+  build:
+    - asset-publish
+    - create-sqlite-db
+    - db-wipe
+    - migrate-fresh
+  assets:
+    - translation-loader-migrations
+    - permission-migrations
+  sync:
+    - from: storage
+      to: workbench/storage
+      reverse: true

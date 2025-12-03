@@ -1,0 +1,34 @@
+name: Run Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  pest-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: [8.4]
+        laravel: [12.x]
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - Pest Tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, bcmath, pdo, sqlite
+          tools: composer:v2
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run Pest Tests
+        run: ./vendor/bin/pest
