@@ -1,6 +1,6 @@
 <?php
 
-namespace Wave8\Factotum\Base\Console\Commands;
+namespace Wave8\Factotum\Cms\Console\Commands;
 
 use DateTimeImmutable;
 use Illuminate\Console\Command;
@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
 use Symfony\Component\Console\Attribute\AsCommand;
-use Wave8\Factotum\Base\Database\Seeder\DatabaseSeeder;
+use Wave8\Factotum\Cms\Database\Seeder\DatabaseSeeder as CmsDatabaseSeeder;
 
 use function Illuminate\Filesystem\join_paths;
 use function Laravel\Prompts\confirm;
@@ -25,7 +25,7 @@ final class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'factotum-base:install
+    protected $signature = 'factotum-cms:install
         {--migrate : Run database migrations (fresh)}
         {--seed : Seed the database with initial data}
         {--force : Overwrite any existing files}';
@@ -60,7 +60,7 @@ final class Install extends Command
 
         try {
             $this->publishConfigs();
-            $this->publishLang();
+
             $this->publishMigrations();
 
             $this->publishModels();
@@ -115,10 +115,7 @@ EOT
     private function ensureVendorMigrationsNotPublished(): bool
     {
         $migrations = collect([
-            'create_personal_access_tokens_table.php',
-            'create_notifications_table.php',
-            'create_language_lines_table.php',
-            'create_permission_tables.php',
+
         ])->reject(fn (string $name) => $this->getMigrationPath($name) === null);
 
         if ($migrations->isEmpty()) {
@@ -141,22 +138,7 @@ EOT);
     {
         $force = $this->option('force');
 
-        $this->callSilent('vendor:publish', ['--tag' => 'query-builder-config', '--force' => $force]);
         $this->callSilent('vendor:publish', ['--tag' => 'factotum-cms-config', '--force' => $force]);
-
-        collect([
-            'disable_invalid_filter_query_exception',
-            'disable_invalid_sort_query_exception',
-            'disable_invalid_includes_query_exception',
-        ])->each(function (string $key) {
-            if (config("query-builder.{$key}") === true) {
-                return;
-            }
-
-            $this->files->replaceInFile("'{$key}' => false,", "'{$key}' => true,", config_path('query-builder.php'));
-
-            throw_if(config("query-builder.{$key}") !== true, "Failed to update query-builder.{$key} value.");
-        });
 
         $this->components->info('Configuration files published successfully.');
     }
@@ -174,31 +156,9 @@ EOT);
     {
         $force = $this->option('force');
 
-        // Vendor migrations are renamed after being published to ensure the
-        // correct order due to differences in publishing methods.
-        // i.e. vendor:publish command uses a $publishedAt Carbon instance and
-        // adds 1 second for each migration, while make:notifications-table
-        // uses the current time at the moment of execution, and spatie's
-        // migrations are not registered as proper migrations.
-
-        $this->callSilent('vendor:publish', ['--tag' => 'sanctum-migrations', '--force' => $force]);
-        $this->callSilent('make:notifications-table');
-        $this->callSilent('vendor:publish', ['--tag' => 'translation-loader-migrations', '--force' => $force]);
-        $this->callSilent('vendor:publish', ['--tag' => 'permission-migrations', '--force' => $force]);
-
         Date::setTestNow(now());
 
-        collect([
-            'create_personal_access_tokens_table.php',
-            'create_notifications_table.php',
-            'create_language_lines_table.php',
-            'create_permission_tables.php',
-        ])->each(function (string $name) {
-            Date::setTestNow(now()->addSecond());
-            $this->renameMigrationFile($name);
-        });
-
-        $this->callSilent('vendor:publish', ['--tag' => 'factotum-base-migrations', '--force' => $force]);
+        $this->callSilent('vendor:publish', ['--tag' => 'factotum-cms-migrations', '--force' => $force]);
 
         Date::setTestNow();
 
@@ -232,7 +192,7 @@ EOT);
     private function publishModels(): void
     {
         if (! $this->option('force') &&
-            ! confirm('Would you like to publish the Factotum Base models to your application?')
+            ! confirm('Would you like to publish the Factotum Cms models to your application?')
         ) {
             warning(<<<'EOT'
 Remember to extend the Factotum Base models in your application and customize them as needed.
@@ -241,18 +201,18 @@ EOT);
             return;
         }
 
-        $this->files->copy(__DIR__.'/../../../stubs/app/Models/User.php', app_path('Models/User.php'));
+//        $this->files->copy(__DIR__.'/../../../stubs/app/Models/User.php', app_path('Models/User.php'));
     }
 
     private function publishProviders(): void
     {
         $force = $this->option('force');
 
-        $this->callSilent('vendor:publish', ['--tag' => 'factotum-base-provider', '--force' => $force]);
+        $this->callSilent('vendor:publish', ['--tag' => 'factotum-cms-provider', '--force' => $force]);
 
-        ServiceProvider::addProviderToBootstrapFile('App\Providers\FactotumBaseServiceProvider');
+        ServiceProvider::addProviderToBootstrapFile('App\Providers\FactotumCmsServiceProvider');
 
-        $this->laravel->register('App\Providers\FactotumBaseServiceProvider');
+        $this->laravel->register('App\Providers\FactotumCmsServiceProvider');
     }
 
     private function runMigrations(): bool
@@ -276,7 +236,7 @@ EOT);
             return false;
         }
 
-        Artisan::call('db:seed', ['--class' => DatabaseSeeder::class, '--force' => true], $this->output);
+        Artisan::call('db:seed', ['--class' => CmsDatabaseSeeder::class, '--force' => true], $this->output);
 
         return true;
     }

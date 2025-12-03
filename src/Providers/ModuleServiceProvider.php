@@ -3,6 +3,7 @@
 namespace Wave8\Factotum\Cms\Providers;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use Wave8\Factotum\Cms\Console\Commands\Install;
 
 class ModuleServiceProvider extends LaravelServiceProvider
 {
@@ -29,7 +30,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     public function registerCommands(): void
     {
         $this->commands([
-
+            Install::class,
         ]);
     }
 

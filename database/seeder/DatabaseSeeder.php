@@ -1,6 +1,6 @@
 <?php
 
-namespace Wave8\Factotum\Base\Database\Seeder;
+namespace Wave8\Factotum\Cms\Database\Seeder;
 
 use Illuminate\Database\Seeder;
 
