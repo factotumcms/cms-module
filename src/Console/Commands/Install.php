@@ -222,7 +222,7 @@ EOT);
             return false;
         }
 
-        Artisan::call('migrate:fresh', ['--force' => true], $this->output);
+        Artisan::call('migrate', ['--force' => true], $this->output);
 
         return true;
     }
