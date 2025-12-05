@@ -4,7 +4,6 @@ namespace Wave8\Factotum\Cms\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Wave8\Factotum\Base\Contracts\Api\RoleServiceInterface;
-use Wave8\Factotum\Base\Enums\Permission\RolePermission;
 use Wave8\Factotum\Base\Models\User;
 
 class ContentTypePolicy

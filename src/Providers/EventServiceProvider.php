@@ -19,5 +19,4 @@ class EventServiceProvider extends LaravelEventServiceProvider
             Event::listen($event, $listener);
         }
     }
-
 }

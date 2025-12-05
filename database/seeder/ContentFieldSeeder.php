@@ -13,6 +13,7 @@ use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 class ContentFieldSeeder extends Seeder
 {
     private readonly ContentTypeServiceInterface $contentTypeService;
+
     public function run(): void
     {
         /** @var ContentTypeService $service */
@@ -98,8 +99,8 @@ class ContentFieldSeeder extends Seeder
                 allowedTypes: ['*'],
                 resizes: [
                     0 => [
-                        'w' => 370, 'h' => 210
-                    ]
+                        'w' => 370, 'h' => 210,
+                    ],
                 ],
             )
         );
@@ -110,7 +111,7 @@ class ContentFieldSeeder extends Seeder
         $contentListRules = [
             [
                 ['contentField' => 'page_operation', 'operator' => '=', 'value' => 'content_list'],
-            ]
+            ],
         ];
         $this->contentTypeService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
@@ -151,12 +152,12 @@ class ContentFieldSeeder extends Seeder
         );
     }
 
-    private function createPageContentLinkFields(ContentType $contentType):void
+    private function createPageContentLinkFields(ContentType $contentType): void
     {
         $linkRules = [
             [
                 ['contentField' => 'page_operation', 'operator' => '=', 'value' => 'link'],
-            ]
+            ],
         ];
 
         $this->contentTypeService->createFieldForContentType($contentType,
@@ -192,7 +193,7 @@ class ContentFieldSeeder extends Seeder
         );
     }
 
-    private function createNewsContentFields(ContentType $contentType):void
+    private function createNewsContentFields(ContentType $contentType): void
     {
         $this->contentTypeService->createFieldForContentType($contentType,
             new CreateContentFieldDto(

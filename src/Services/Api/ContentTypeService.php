@@ -29,16 +29,19 @@ class ContentTypeService implements ContentTypeServiceInterface
 
         return $contentType;
     }
+
     public function getByType(ContentTypeEnum $type): ContentType
     {
         return $this->model::where('type', $type)->firstOrFail();
     }
+
     public function createFieldForContentType(ContentType $contentType, CreateContentFieldDto $data): ContentField
     {
         return $contentType->content_fields()->create(
             $data->toArray()
         );
     }
+
     public function generateDynamicTable(ContentType $contentType)
     {
         Schema::create($contentType->type, function (Blueprint $table) {

@@ -34,9 +34,9 @@ class CreateContentTypeRequest extends FormRequest
             'icon' => ['sometimes', 'string'],
         ];
 
-        //Detect table names and block any reserved words
+        // Detect table names and block any reserved words
         $tableListing = collect(Schema::getTables(Schema::getCurrentSchemaListing()))->pluck('name')->toArray();
-        $rules['type'][] = 'not_in:' . implode(',', $tableListing);
+        $rules['type'][] = 'not_in:'.implode(',', $tableListing);
 
         return $rules;
     }

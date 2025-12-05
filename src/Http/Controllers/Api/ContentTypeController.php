@@ -22,7 +22,7 @@ final readonly class ContentTypeController
 
     public function store(CreateContentTypeRequest $request): ApiResponse
     {
-        $contentType =  $this->contentTypeService->create(
+        $contentType = $this->contentTypeService->create(
             data: CreateContentTypeDto::from($request)
         );
 
@@ -30,6 +30,5 @@ final readonly class ContentTypeController
             data: $this->contentTypeResource::from($contentType),
             status: ApiResponse::HTTP_CREATED
         );
-
     }
 }

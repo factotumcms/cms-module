@@ -5,7 +5,6 @@ namespace Wave8\Factotum\Cms\Providers;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Wave8\Factotum\Cms\Console\Commands\Install;
 
-
 class ModuleServiceProvider extends LaravelServiceProvider
 {
     public function register(): void
@@ -38,13 +37,13 @@ class ModuleServiceProvider extends LaravelServiceProvider
     private function configurePublishing(): void
     {
         $this->publishesMigrations([
-            __DIR__ . '/../../database/migrations' => database_path('migrations'),
+            __DIR__.'/../../database/migrations' => database_path('migrations'),
         ], 'factotum-cms-migrations');
 
         $this->publishes([
-            __DIR__ . '/../../stubs/app/Providers/FactotumCmsServiceProvider.php' => app_path('Providers/FactotumCmsServiceProvider.php'),
+            __DIR__.'/../../stubs/app/Providers/FactotumCmsServiceProvider.php' => app_path('Providers/FactotumCmsServiceProvider.php'),
         ], 'factotum-cms-provider');
 
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang');
+        $this->loadTranslationsFrom(__DIR__.'/../../lang');
     }
 }

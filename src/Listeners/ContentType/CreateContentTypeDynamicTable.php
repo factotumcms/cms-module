@@ -2,7 +2,6 @@
 
 namespace Wave8\Factotum\Cms\Listeners\ContentType;
 
-
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Events\ContentTypeCreated;
