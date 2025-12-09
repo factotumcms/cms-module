@@ -4,8 +4,7 @@ namespace Wave8\Factotum\Cms\Http\Requests\Api\ContentType;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Validation\Rule;
+use Wave8\Factotum\Cms\Rules\ContentType\ContentTypeTableUniqueRule;
 
 class CreateContentTypeRequest extends FormRequest
 {
@@ -24,9 +23,9 @@ class CreateContentTypeRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        return [
             'label' => ['required', 'string'],
-            'type' => ['required', 'string', 'unique:content_types,type'],
+            'type' => ['required', 'string', 'unique:content_types,type', new ContentTypeTableUniqueRule],
             'editable' => ['required', 'boolean'],
             'order_no' => ['required', 'int'],
             'sitemap' => ['required', 'boolean'],
@@ -34,12 +33,5 @@ class CreateContentTypeRequest extends FormRequest
             'hierarchical' => ['required', 'boolean'],
             'icon' => ['sometimes', 'string'],
         ];
-
-        // Detect table names and block any reserved words
-        $tableListing = collect(Schema::getTables(Schema::getCurrentSchemaListing()))->pluck('name')->toArray();
-
-        $rules['type'][] = Rule::notIn($tableListing);
-
-        return $rules;
     }
 }

@@ -4,12 +4,9 @@ namespace Wave8\Factotum\Cms\Http\Requests\Api\Content;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Wave8\Factotum\Base\Contracts\Api\SettingServiceInterface;
-use Wave8\Factotum\Base\Enums\Setting\Setting;
-use Wave8\Factotum\Base\Enums\Setting\SettingGroup;
-use Wave8\Factotum\Base\Services\Api\SettingService;
-use Wave8\Factotum\Cms\Enums\ContentEditorType;
-use Wave8\Factotum\Cms\Enums\ContentStatus;
+use Wave8\Factotum\Cms\Rules\Content\ContentEditorTypeRule;
+use Wave8\Factotum\Cms\Rules\Content\ContentLangRule;
+use Wave8\Factotum\Cms\Rules\Content\ContentStatusRule;
 
 class CreateContentRequest extends FormRequest
 {
@@ -31,22 +28,14 @@ class CreateContentRequest extends FormRequest
         $rules = [
             'content_type_id' => ['required', 'int', 'exists:content_types,id'],
             'parent_id' => ['sometimes', 'int', 'exists:contents,id'],
-            'status' => ['required', 'string'],
+            'status' => ['required', 'string', new ContentStatusRule],
             'title' => ['required', 'string'],
-            'editor_type' => ['required', 'string'],
+            'editor_type' => ['required', 'string', new ContentEditorTypeRule],
             'content' => ['required', 'string'],
             'url' => ['required', 'string', 'unique:contents,url'],
             'abs_url' => ['required', 'string', 'unique:contents,abs_url'],
-            'lang' => ['required', 'string'],
+            'lang' => ['required', 'string', new ContentLangRule],
         ];
-
-        $rules['status'][] = 'in:'.implode(',', ContentStatus::getValues()->toArray());
-        $rules['editor_type'][] = 'in:'.implode(',', ContentEditorType::getValues()->toArray());
-
-        /* @var SettingService $settingService */
-        $settingService = app(SettingServiceInterface::class);
-        $availableLanguages = $settingService->getValue(Setting::AVAILABLE_LOCALES, SettingGroup::LOCALE);
-        $rules['lang'][] = 'in:'.implode(',', $availableLanguages);
 
         return $rules;
     }
