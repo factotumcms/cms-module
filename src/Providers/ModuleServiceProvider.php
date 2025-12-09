@@ -4,6 +4,8 @@ namespace Wave8\Factotum\Cms\Providers;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Wave8\Factotum\Cms\Console\Commands\Install;
+use Wave8\Factotum\Cms\Models\ContentType;
+use Wave8\Factotum\Cms\Observers\ContentTypeObserver;
 
 class ModuleServiceProvider extends LaravelServiceProvider
 {
@@ -25,6 +27,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     public function boot(): void
     {
         $this->configurePublishing();
+        $this->configureObservers();
     }
 
     public function registerCommands(): void
@@ -45,5 +48,10 @@ class ModuleServiceProvider extends LaravelServiceProvider
         ], 'factotum-cms-provider');
 
         $this->loadTranslationsFrom(__DIR__.'/../../lang');
+    }
+
+    private function configureObservers(): void
+    {
+        ContentType::observe(ContentTypeObserver::class);
     }
 }

@@ -8,7 +8,6 @@ use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
 use Wave8\Factotum\Cms\Dtos\Api\ContentType\CreateContentTypeDto;
 use Wave8\Factotum\Cms\Enums\ContentType as ContentTypeEnum;
-use Wave8\Factotum\Cms\Events\ContentTypeCreated;
 use Wave8\Factotum\Cms\Models\ContentField;
 use Wave8\Factotum\Cms\Models\ContentType;
 
@@ -25,8 +24,6 @@ class ContentTypeService implements ContentTypeServiceInterface
     {
         $contentType = $this->model::create($data->toArray());
 
-        ContentTypeCreated::dispatch($contentType);
-
         return $contentType;
     }
 
@@ -42,7 +39,7 @@ class ContentTypeService implements ContentTypeServiceInterface
         );
     }
 
-    public function generateDynamicTable(ContentType $contentType)
+    public function generateDynamicTable(ContentType $contentType): void
     {
         Schema::create($contentType->type, function (Blueprint $table) {
             $table->increments('id');

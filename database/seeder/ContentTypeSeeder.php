@@ -17,7 +17,7 @@ class ContentTypeSeeder extends Seeder
 
         $service->create(
             new CreateContentTypeDto(
-                type: ContentType::PAGE,
+                type: ContentType::PAGE->value,
                 label: 'Pagine',
                 editable: false,
                 icon: 'content',
@@ -29,7 +29,7 @@ class ContentTypeSeeder extends Seeder
 
         $service->create(
             new CreateContentTypeDto(
-                type: ContentType::NEWS,
+                type: ContentType::NEWS->value,
                 label: 'News',
                 editable: true,
                 icon: 'news',

@@ -6,13 +6,12 @@ use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 use Spatie\LaravelData\Optional;
-use Wave8\Factotum\Cms\Enums\ContentType as ContentTypeEnum;
 
 #[MapName(SnakeCaseMapper::class)]
 class CreateContentTypeDto extends Data
 {
     public function __construct(
-        public ContentTypeEnum $type,
+        public string $type,
         public string $label,
         public bool $editable,
         public ?string $icon,

@@ -5,6 +5,7 @@ namespace Wave8\Factotum\Cms\Http\Requests\Api\ContentType;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rule;
 
 class CreateContentTypeRequest extends FormRequest
 {
@@ -36,7 +37,8 @@ class CreateContentTypeRequest extends FormRequest
 
         // Detect table names and block any reserved words
         $tableListing = collect(Schema::getTables(Schema::getCurrentSchemaListing()))->pluck('name')->toArray();
-        $rules['type'][] = 'not_in:'.implode(',', $tableListing);
+
+        $rules['type'][] = Rule::notIn($tableListing);
 
         return $rules;
     }
