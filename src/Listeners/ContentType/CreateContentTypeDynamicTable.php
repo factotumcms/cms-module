@@ -23,5 +23,7 @@ readonly class CreateContentTypeDynamicTable implements ShouldQueue
     public function handle(ContentTypeCreated $event): void
     {
         $this->contentTypeService->generateDynamicTable($event->contentType);
+
+        //        $this->contentTypeService->generateCapabilitiesOnCreate( $contentType );
     }
 }

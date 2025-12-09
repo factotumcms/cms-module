@@ -4,9 +4,9 @@ namespace Wave8\Factotum\Cms\Enums;
 
 use Wave8\Factotum\Base\Traits\ListCases;
 
-enum ContentEditorType: string
+enum ContentStatus: string
 {
     use ListCases;
-    case BUILDER = 'builder';
-    case WYSIWYG = 'wysiwyg';
+    case DRAFT = 'draft';
+    case PUBLISHED = 'published';
 }

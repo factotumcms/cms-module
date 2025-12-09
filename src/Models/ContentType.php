@@ -41,4 +41,9 @@ class ContentType extends Model
     {
         return $this->hasMany(Category::class);
     }
+
+    public function contents(): HasMany
+    {
+        return $this->hasMany(Content::class);
+    }
 }

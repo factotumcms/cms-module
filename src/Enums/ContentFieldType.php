@@ -2,8 +2,11 @@
 
 namespace Wave8\Factotum\Cms\Enums;
 
+use Wave8\Factotum\Base\Traits\ListCases;
+
 enum ContentFieldType: string
 {
+    use ListCases;
     case SELECT = 'select';
     case TEXT = 'text';
     case NUMBER = 'number';

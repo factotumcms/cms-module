@@ -1,5 +1,6 @@
 <?php
 
+use Wave8\Factotum\Cms\Resources\Api\ContentResource;
 use Wave8\Factotum\Cms\Resources\Api\ContentTypeResource;
 
 return [
@@ -7,4 +8,5 @@ return [
 
     // Resources Bindings
     ContentTypeResource::class => ContentTypeResource::class,
+    ContentResource::class => ContentResource::class,
 ];

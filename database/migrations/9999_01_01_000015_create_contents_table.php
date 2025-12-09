@@ -21,14 +21,14 @@ return new class extends Migration
 
             $table->string('status', 25);
             $table->string('title', 255);
-            $table->string('editor_type', 32)->nullable()->default(ContentEditorType::BUILDER);
-            $table->longText('content')->nullable();
+            $table->string('editor_type', 32)->default(ContentEditorType::BUILDER);
+            $table->longText('content');
             $table->string('url', 191);
-            $table->string('abs_url', 191)->nullable()->unique();
+            $table->string('abs_url', 191)->unique();
             $table->string('lang', 5);
-            $table->boolean('show_in_menu')->nullable();
-            $table->boolean('is_home')->default(false)->nullable();
-            $table->integer('order_no')->nullable();
+            $table->boolean('show_in_menu')->default(false);
+            $table->boolean('is_home')->default(false);
+            $table->integer('order_no')->default(0);
 
             $table->string('seo_title', 70)->nullable();
             $table->text('seo_description')->nullable();
