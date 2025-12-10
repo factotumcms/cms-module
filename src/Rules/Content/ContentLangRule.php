@@ -26,7 +26,10 @@ class ContentLangRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (! in_array($value, $this->availableLocales)) {
-            $fail('The :attribute is invalid, must be one of: '.implode(', ', $this->availableLocales).'.');
+            $fail(__("validation.content_editor_type_rule", [
+                'attribute' => $attribute,
+                'values' => implode(', ', $this->availableLocales)
+            ]));
         }
     }
 }

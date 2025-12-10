@@ -18,7 +18,7 @@ class ContentTypeTableUniqueRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (in_array($value, $this->tableListing)) {
-            $fail('The :attribute is invalid, a database table with this name already exists.');
+            $fail(__('validation.content_type_table_unique_rule'));
         }
     }
 }
