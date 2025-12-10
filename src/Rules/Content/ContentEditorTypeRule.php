@@ -18,9 +18,9 @@ class ContentEditorTypeRule implements ValidationRule
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (! in_array($value, $this->contentEditorTypes)) {
-            $fail(__("validation.content_editor_type_rule", [
+            $fail(__('validation.content_editor_type_rule', [
                 'attribute' => $attribute,
-                'values' => implode(', ', $this->contentEditorTypes)
+                'values' => implode(', ', $this->contentEditorTypes),
             ]));
         }
     }

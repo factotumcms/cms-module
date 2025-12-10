@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
             ContentTypeSeeder::class,
             ContentFieldSeeder::class,
             ContentSeeder::class,
-            LanguageSeeder::class
+            LanguageSeeder::class,
         ]);
     }
 }
