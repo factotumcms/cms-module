@@ -5,8 +5,8 @@ namespace Wave8\Factotum\Cms\Database\Seeder;
 use Illuminate\Database\Seeder;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
+use Wave8\Factotum\Cms\Enums\BaseContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentFieldType;
-use Wave8\Factotum\Cms\Enums\ContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Models\ContentType;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 

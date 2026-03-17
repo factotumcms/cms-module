@@ -9,9 +9,9 @@ use Wave8\Factotum\Base\Services\Api\UserService;
 use Wave8\Factotum\Cms\Contracts\Api\ContentServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\Content\CreateContentDto;
+use Wave8\Factotum\Cms\Enums\BaseContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
 use Wave8\Factotum\Cms\Enums\ContentStatus;
-use Wave8\Factotum\Cms\Enums\ContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Services\Api\ContentService;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 

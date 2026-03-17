@@ -22,6 +22,7 @@
             "Wave8\\Factotum\\Cms\\Database\\Seeder\\": "database/seeder/"
         }
     },
+
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"

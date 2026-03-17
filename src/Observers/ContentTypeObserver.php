@@ -9,16 +9,18 @@ use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 class ContentTypeObserver
 {
     public function __construct(
-        /** @var ContentTypeService */
+        /** @var ContentTypeService $contentTypeService */
         private ContentTypeServiceInterface $contentTypeService,
     ) {}
 
     /**
      * Handle the ContentType "created" event.
+     *
+     * @throws \Exception
      */
     public function created(ContentType $contentType): void
     {
-        $this->contentTypeService->generateDynamicTable($contentType);
+        $this->contentTypeService->generateDynamicTableAndModel($contentType);
     }
 
     /**

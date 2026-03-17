@@ -5,7 +5,7 @@ namespace Wave8\Factotum\Cms\Database\Seeder;
 use Illuminate\Database\Seeder;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentType\CreateContentTypeDto;
-use Wave8\Factotum\Cms\Enums\ContentType;
+use Wave8\Factotum\Cms\Enums\BaseContentType;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 
 class ContentTypeSeeder extends Seeder
@@ -17,7 +17,7 @@ class ContentTypeSeeder extends Seeder
 
         $service->create(
             new CreateContentTypeDto(
-                type: ContentType::PAGE->value,
+                type: BaseContentType::PAGE->value,
                 label: 'Pagine',
                 editable: false,
                 icon: 'content',
@@ -29,7 +29,7 @@ class ContentTypeSeeder extends Seeder
 
         $service->create(
             new CreateContentTypeDto(
-                type: ContentType::NEWS->value,
+                type: BaseContentType::NEWS->value,
                 label: 'News',
                 editable: true,
                 icon: 'news',

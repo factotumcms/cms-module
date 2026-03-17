@@ -2,6 +2,7 @@
 
 namespace Wave8\Factotum\Cms\Dtos\Api\ContentType;
 
+use Illuminate\Support\Str;
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
@@ -19,5 +20,7 @@ class CreateContentTypeDto extends Data
         public bool $visible,
         public bool $hierarchical,
         public Optional|null|int $orderNo = null,
-    ) {}
+    ) {
+        $this->type = Str::lower(Str::snake($this->type));
+    }
 }
