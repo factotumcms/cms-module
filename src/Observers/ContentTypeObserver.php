@@ -20,7 +20,8 @@ class ContentTypeObserver
      */
     public function created(ContentType $contentType): void
     {
-        $this->contentTypeService->generateDynamicTableAndModel($contentType);
+        $this->contentTypeService->generateDynamicTable($contentType);
+        $this->contentTypeService->generateDynamicModel($contentType);
     }
 
     /**

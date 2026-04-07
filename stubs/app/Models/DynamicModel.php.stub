@@ -1,6 +1,6 @@
 <?php
 
-namespace Wave8\Factotum\Cms\Dynamics\Models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

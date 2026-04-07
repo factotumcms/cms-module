@@ -6,5 +6,5 @@ use Wave8\Factotum\Cms\Models\ContentType;
 
 interface ContentTypeServiceInterface
 {
-    public function generateDynamicTableAndModel(ContentType $contentType): void;
+    public function generateDynamicTable(ContentType $contentType): void;
 }

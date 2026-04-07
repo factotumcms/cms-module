@@ -2,6 +2,7 @@
 
 namespace Wave8\Factotum\Cms\Services\Api;
 
+use AllowDynamicProperties;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
@@ -14,9 +15,12 @@ use Wave8\Factotum\Cms\Enums\BaseContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Models\ContentField;
 use Wave8\Factotum\Cms\Models\ContentType;
 
+#[AllowDynamicProperties]
 class ContentTypeService implements ContentTypeServiceInterface
 {
-    public function __construct(public readonly ContentType $model) {}
+    public function __construct(public readonly ContentType $model) {
+        $this->fs = app(Filesystem::class);
+    }
 
     public function single(int $id): ContentType
     {
@@ -45,18 +49,9 @@ class ContentTypeService implements ContentTypeServiceInterface
     /**
      * @throws \Exception
      */
-    public function generateDynamicTableAndModel(ContentType $contentType): void
+    public function generateDynamicTable(ContentType $contentType): void
     {
-        $filesystem = app(Filesystem::class);
-
         $tableName = Str::lower(Str::snake($contentType->type));
-        $modelName = Str::ucfirst(Str::pascal($contentType->type));
-        $modelPath = base_path('/dynamics/models');
-        $modelFullPath = "{$modelPath}/{$modelName}.php";
-        $loader = require base_path('vendor/autoload.php');
-
-        $modelDirectoryCreated = false;
-        $modelCreated = false;
 
         try {
             // Dynamic table creation
@@ -69,28 +64,41 @@ class ContentTypeService implements ContentTypeServiceInterface
                 });
             }
 
-            // Dynamic model creation
-            //            if (file_exists($modelFullPath)) {
-            //                throw new \Exception("Model {$modelName} already exists!");
-            //            }
-
-            File::ensureDirectoryExists($modelPath);
-            $modelDirectoryCreated = true;
-
-            if ($filesystem->copy(__DIR__.'/../../../stubs/app/Models/DynamicModel.php', $modelFullPath)) {
-                $modelCreated = true;
-            }
-
-            $filesystem->replaceInFile('DynamicModel', $modelName, $modelFullPath);
-            $filesystem->replaceInFile('dynamic_model', $tableName, $modelFullPath);
-
-            $loader->addClassMap([
-                'Wave8\\Factotum\\Cms\\Dynamics\\Models\\'.$modelName => $modelFullPath,
-            ]);
         } catch (\Exception $e) {
             // Dropping table
             Schema::dropIfExists($tableName);
 
+            throw $e;
+        }
+    }
+
+    public function generateDynamicModel(ContentType $contentType): void
+    {
+        try {
+            $tableName = Str::lower(Str::snake($contentType->type));
+            $modelName = Str::ucfirst(Str::pascal($contentType->type));
+            $modelPath = app_path('/Models');
+
+            $modelFullPath = "{$modelPath}/{$modelName}.php";
+
+            $modelDirectoryCreated = false;
+            $modelCreated = false;
+
+            // Dynamic model creation
+            if (file_exists($modelFullPath)) {
+                throw new \Exception("Model {$modelName} already exists!");
+            }
+
+            File::ensureDirectoryExists($modelPath);
+            $modelDirectoryCreated = true;
+
+            if ($this->fs->copy(__DIR__.'/../../../stubs/app/Models/DynamicModel.php.stub', $modelFullPath)) {
+                $modelCreated = true;
+            }
+
+            $this->fs->replaceInFile('DynamicModel', $modelName, $modelFullPath);
+            $this->fs->replaceInFile('dynamic_model', $tableName, $modelFullPath);
+        }catch (\Exception $e) {
             // Manual rollback
             if ($modelCreated && file_exists($modelFullPath)) {
                 File::delete($modelFullPath);
