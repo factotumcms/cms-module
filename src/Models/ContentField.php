@@ -16,24 +16,11 @@ class ContentField extends Model
         'name',
         'label',
         'type',
-        'old_type',
         'order_no',
         'mandatory',
         'readonly',
         'hint',
-        'options',
-
-        'allowed_types',
-
-        'max_file_size',
-        'min_width_size',
-        'min_height_size',
-
-        'image_operation',
-        'image_bw',
-        'resizes',
-
-        'linked_content_type_id',
+        'configs',
 
         'visibility_rules',
         'mandatory_rules',
@@ -42,10 +29,7 @@ class ContentField extends Model
     protected $casts = [
         'mandatory' => 'boolean',
         'readonly' => 'boolean',
-        'options' => 'array',
-        'image_bw' => 'boolean',
-        'allowed_types' => 'array',
-        'resizes' => 'array',
+        'configs' => 'array',
         'visibility_rules' => 'array',
         'mandatory_rules' => 'array',
         'type' => ContentFieldType::class,

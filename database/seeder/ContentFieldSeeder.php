@@ -36,7 +36,7 @@ class ContentFieldSeeder extends Seeder
                 label: 'Page Template',
                 type: ContentFieldType::SELECT,
                 mandatory: true,
-                options: [
+                configs: [
                     ['value' => 'home',           'label' => 'Home Page Template'],
                     ['value' => 'basic',          'label' => 'Basic Page Template'],
                     ['value' => 'content_list',   'label' => 'Content List Page Template'],
@@ -63,7 +63,7 @@ class ContentFieldSeeder extends Seeder
                 label: 'Page Operation',
                 type: ContentFieldType::SELECT,
                 mandatory: true,
-                options: [
+                configs: [
                     ['value' => 'show_content', 'label' => 'Show Page Content'],
                     ['value' => 'content_list', 'label' => 'Show Content List'],
                     ['value' => 'link',         'label' => 'Link'],
@@ -92,16 +92,7 @@ class ContentFieldSeeder extends Seeder
                 label: 'Page Cover',
                 type: ContentFieldType::IMAGE_UPLOAD,
                 mandatory: false,
-                minWidthSize: 100,
-                minHeightSize: 100,
-                maxFileSize: 2,
-                imageOperation: 'fit',
-                allowedTypes: ['*'],
-                resizes: [
-                    0 => [
-                        'w' => 370, 'h' => 210,
-                    ],
-                ],
+
             )
         );
     }
@@ -137,7 +128,7 @@ class ContentFieldSeeder extends Seeder
                 name: 'content_list_order',
                 label: 'Content List Order',
                 type: ContentFieldType::SELECT,
-                options: [
+                configs: [
                     ['value' => 'contents.id-asc',          'label' => 'BY ID ASC'],
                     ['value' => 'contents.id-desc',         'label' => 'BY ID DESC'],
                     ['value' => 'contents.created_at-asc',  'label' => 'BY DATA CREATION ASC'],
@@ -184,7 +175,7 @@ class ContentFieldSeeder extends Seeder
                 name: 'link_open_in',
                 label: 'Link Open In',
                 type: ContentFieldType::SELECT,
-                options: [
+                configs: [
                     ['value' => '_self',  'label' => 'Same Page'],
                     ['value' => '_blank', 'label' => 'New Page'],
                 ],
