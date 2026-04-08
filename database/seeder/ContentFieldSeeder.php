@@ -5,7 +5,7 @@ namespace Wave8\Factotum\Cms\Database\Seeder;
 use Illuminate\Database\Seeder;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
-use Wave8\Factotum\Cms\Enums\BaseContentType as ContentTypeEnum;
+use Wave8\Factotum\Cms\Enums\BaseContentType as BaseContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentFieldType;
 use Wave8\Factotum\Cms\Models\ContentType;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
@@ -19,8 +19,8 @@ class ContentFieldSeeder extends Seeder
         /** @var ContentTypeService $service */
         $this->contentTypeService = app(ContentTypeServiceInterface::class);
 
-        $pageContentType = $this->contentTypeService->getByType(ContentTypeEnum::PAGE);
-        $newsContentType = $this->contentTypeService->getByType(ContentTypeEnum::PAGE);
+        $pageContentType = $this->contentTypeService->getByType(BaseContentTypeEnum::PAGE);
+        $newsContentType = $this->contentTypeService->getByType(BaseContentTypeEnum::NEWS);
 
         $this->createPageContentFields($pageContentType);
         $this->createPageContentListFields($pageContentType);

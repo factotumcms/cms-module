@@ -4,6 +4,7 @@ namespace Wave8\Factotum\Cms\Http\Requests\Api\ContentType;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Wave8\Factotum\Cms\Enums\ContentFieldType;
 use Wave8\Factotum\Cms\Rules\ContentType\ContentTypeTableUniqueRule;
 
 class CreateContentTypeRequest extends FormRequest
@@ -23,6 +24,8 @@ class CreateContentTypeRequest extends FormRequest
      */
     public function rules(): array
     {
+        $contentFieldType = implode(',', ContentFieldType::getValues()->toArray());
+
         return [
             'label' => ['required', 'string'],
             'type' => ['required', 'string', 'unique:content_types,type', new ContentTypeTableUniqueRule],

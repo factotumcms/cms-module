@@ -4,7 +4,9 @@ namespace Wave8\Factotum\Cms\Providers;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Wave8\Factotum\Cms\Console\Commands\Install;
+use Wave8\Factotum\Cms\Models\ContentField;
 use Wave8\Factotum\Cms\Models\ContentType;
+use Wave8\Factotum\Cms\Observers\ContentFieldObserver;
 use Wave8\Factotum\Cms\Observers\ContentTypeObserver;
 
 class ModuleServiceProvider extends LaravelServiceProvider
@@ -53,5 +55,6 @@ class ModuleServiceProvider extends LaravelServiceProvider
     private function configureObservers(): void
     {
         ContentType::observe(ContentTypeObserver::class);
+        ContentField::observe(ContentFieldObserver::class);
     }
 }

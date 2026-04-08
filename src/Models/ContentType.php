@@ -32,7 +32,7 @@ class ContentType extends Model
         'type',
     ];
 
-    public function content_fields(): HasMany
+    public function contentFields(): HasMany
     {
         return $this->hasMany(ContentField::class);
     }
