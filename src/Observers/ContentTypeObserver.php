@@ -28,10 +28,21 @@ class ContentTypeObserver
 
     /**
      * Handle the ContentType "updated" event.
+     * @throws \Exception
      */
     public function updated(ContentType $contentType): void
     {
-        //
+        if($contentType->wasChanged('type')) {
+            $this->updateDynamicTable(
+                oldType: $contentType->getOriginal('type'),
+                newType: $contentType->type
+            );
+
+            $this->updateDynamicModel(
+                oldType: $contentType->getOriginal('type'),
+                newType: $contentType->type
+            );
+        }
     }
 
     /**
@@ -70,15 +81,29 @@ class ContentTypeObserver
             if (! Schema::hasTable($tableName)) {
                 Schema::create($tableName, function (Blueprint $table) {
                     $table->increments('id');
-
-                    $table->foreignId('content_type_id')->cascadeOnDelete();
                     $table->foreignId('content_id')->cascadeOnDelete();
+                    $table->timestamps();
+                    $table->softDeletes();
                 });
             }
         } catch (\Exception $e) {
             // Dropping table
             Schema::dropIfExists($tableName);
 
+            throw $e;
+        }
+    }
+
+    private function updateDynamicTable(string $oldType, string $newType): void
+    {
+        $oldTableName = Str::lower(Str::snake($oldType));
+        $newTableName = Str::lower(Str::snake($newType));
+
+        try {
+            if (Schema::hasTable($oldTableName)) {
+                Schema::rename($oldTableName, $newTableName);
+            }
+        }catch (\Exception $e) {
             throw $e;
         }
     }
@@ -122,6 +147,35 @@ class ContentTypeObserver
                 File::deleteDirectory($modelPath);
             }
 
+            throw $e;
+        }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function updateDynamicModel(string $oldType, string $newType): void
+    {
+        try {
+            $oldTableName = Str::lower(Str::snake($oldType));
+            $newTableName = Str::lower(Str::snake($newType));
+            $oldModelName = Str::ucfirst(Str::pascal($oldType));
+            $newModelName = Str::ucfirst(Str::camel($newType));
+            $modelPath = app_path('/Models');
+
+            $modelFullPath = "{$modelPath}/{$oldModelName}.php";
+
+            // Dynamic model creation
+            if (!file_exists($modelFullPath)) {
+                throw new \Exception("Model {$oldModelName} does not exist");
+            }
+
+            $this->fs->replaceInFile($oldModelName, $newModelName, $modelFullPath);
+            $this->fs->replaceInFile($oldTableName, $newTableName, $modelFullPath);
+
+            $this->fs->move($modelFullPath, "{$modelPath}/{$newModelName}.php");
+
+        }catch (\Exception $e) {
             throw $e;
         }
     }

@@ -5,11 +5,14 @@ namespace Wave8\Factotum\Cms\Models;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Cms\Policies\ContentTypePolicy;
 
 #[UsePolicy(ContentTypePolicy::class)]
 class ContentType extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'type',
         'editable',

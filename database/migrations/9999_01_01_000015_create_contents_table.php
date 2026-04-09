@@ -42,6 +42,7 @@ return new class extends Migration
             $table->integer('fb_image')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

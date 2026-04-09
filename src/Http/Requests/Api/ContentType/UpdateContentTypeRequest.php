@@ -24,8 +24,16 @@ class UpdateContentTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // Safe fields
             'label' => ['sometimes', 'string'],
+            'order_no' => ['sometimes', 'integer'],
+            'icon' => ['sometimes', 'string'],
+            'sitemap' => ['sometimes', 'boolean'],
+            'visible' => ['sometimes', 'boolean'],
+
+            // Critical fields
             'type' => ['sometimes', 'string', 'unique:content_types,type', new ContentTypeTableUniqueRule],
+            'hierarchical' => ['sometimes', 'boolean'],
         ];
     }
 }

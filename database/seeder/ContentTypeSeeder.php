@@ -17,7 +17,7 @@ class ContentTypeSeeder extends Seeder
 
         $service->create(
             new CreateContentTypeDto(
-                type: BaseContentType::PAGE->value,
+                type: BaseContentType::PAGES->value,
                 label: 'Pagine',
                 editable: false,
                 icon: 'content',

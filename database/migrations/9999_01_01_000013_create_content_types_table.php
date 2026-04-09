@@ -22,6 +22,7 @@ return new class extends Migration
             $table->boolean('visible')->default(true);
             $table->boolean('hierarchical')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

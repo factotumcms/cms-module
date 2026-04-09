@@ -32,7 +32,9 @@ class ContentTypeService implements ContentTypeServiceInterface
 
     public function update(ContentType $contentType, UpdateContentTypeDto $data): ContentType
     {
+        $contentType->update($data->toArray());
 
+        return $contentType;
     }
 
     public function getByType(ContentTypeEnum|string $type): ContentType

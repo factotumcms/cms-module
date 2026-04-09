@@ -25,7 +25,9 @@ class ContentTypePolicy
 
     public function update(User $user, ContentType $contentType): bool
     {
-        return $contentType->editable;
+        // Prevent the updates on production environment because is a critical object.
+        // Follow always this pattern: updates on dev -> staging -> production
+        return $contentType->editable && config('app.env') !== 'production';
     }
 
     public function delete(User $user): bool

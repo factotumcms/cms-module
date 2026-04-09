@@ -38,6 +38,7 @@ return new class extends Migration
             $table->foreign('fb_image')->references('id')->on('media');
 
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('category_content', function (Blueprint $table) {

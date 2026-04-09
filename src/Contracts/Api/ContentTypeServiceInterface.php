@@ -14,6 +14,7 @@ interface ContentTypeServiceInterface
     public function single(int $id): ContentType;
 
     public function create(CreateContentTypeDto $data): ContentType;
+
     public function update(ContentType $contentType, UpdateContentTypeDto $data): ContentType;
 
     public function getByType(ContentTypeEnum|string $type): ContentType;

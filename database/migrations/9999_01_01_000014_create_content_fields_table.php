@@ -29,6 +29,7 @@ return new class extends Migration
 
             $table->unique(['content_type_id', 'name']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

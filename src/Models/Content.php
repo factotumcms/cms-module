@@ -7,11 +7,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Cms\Casts\ContentContentCast;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
 
 class Content extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'content_type_id',
         'user_id',

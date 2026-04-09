@@ -33,7 +33,7 @@ class ContentSeeder extends Seeder
         foreach (Locale::getValues() as $locale) {
             $this->contentService->create(
                 new CreateContentDto(
-                    contentTypeId: $this->contentTypeService->getByType(ContentTypeEnum::PAGE)->id,
+                    contentTypeId: $this->contentTypeService->getByType(ContentTypeEnum::PAGES)->id,
                     status: ContentStatus::PUBLISHED,
                     title: 'Home',
                     editorType: ContentEditorType::BUILDER,

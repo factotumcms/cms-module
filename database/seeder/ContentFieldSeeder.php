@@ -19,7 +19,7 @@ class ContentFieldSeeder extends Seeder
         /** @var ContentTypeService $service */
         $this->contentTypeService = app(ContentTypeServiceInterface::class);
 
-        $pageContentType = $this->contentTypeService->getByType(BaseContentTypeEnum::PAGE);
+        $pageContentType = $this->contentTypeService->getByType(BaseContentTypeEnum::PAGES);
         $newsContentType = $this->contentTypeService->getByType(BaseContentTypeEnum::NEWS);
 
         $this->createPageContentFields($pageContentType);
