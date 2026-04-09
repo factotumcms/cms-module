@@ -2,6 +2,7 @@
 
 namespace Wave8\Factotum\Cms\Dtos\Api\ContentField;
 
+use Illuminate\Support\Str;
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
@@ -22,5 +23,7 @@ class CreateContentFieldDto extends Data
         public Optional|array|null $configs = null,
         public Optional|array|null $visibilityRules = null,
         public Optional|array|null $mandatoryRules = null,
-    ) {}
+    ) {
+        $this->name = Str::lower(Str::snake($this->name));
+    }
 }

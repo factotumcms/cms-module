@@ -4,7 +4,7 @@ namespace Wave8\Factotum\Cms\Observers;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Wave8\Factotum\Base\Models\Media;
+use Illuminate\Support\Str;
 use Wave8\Factotum\Cms\Enums\ContentFieldType;
 use Wave8\Factotum\Cms\Models\ContentField;
 
@@ -59,38 +59,40 @@ class ContentFieldObserver
     {
         $tableName = $contentField->contentType->type;
         $afterColumn = $this->getLastDynamicColumn($tableName);
+        $colName = Str::lower(Str::snake($contentField->name));
 
-        Schema::table($tableName, function (Blueprint $table) use ($contentField, $afterColumn) {
-
+        Schema::table($tableName, function (Blueprint $table) use ($contentField, $afterColumn, $colName) {
             $column = match ($contentField->type) {
                 ContentFieldType::TEXT,
                 ContentFieldType::TEXTAREA,
                 ContentFieldType::URL,
-                ContentFieldType::SELECT => $table->string($contentField->name)->nullable(),
+                ContentFieldType::SELECT => $table->string($colName)->nullable(),
 
-                ContentFieldType::IMAGE_UPLOAD => $table->foreignIdFor(Media::class, $contentField->name)
-                    ->nullable()
-                    ->constrained(),
-                ContentFieldType::CHECKBOX => $table->boolean($contentField->name),
-                ContentFieldType::NUMBER => $table->integer($contentField->name),
+                ContentFieldType::IMAGE_UPLOAD => $table->unsignedBigInteger($colName)->nullable(),
+
+                ContentFieldType::CHECKBOX => $table->boolean($colName),
+                ContentFieldType::NUMBER => $table->integer($colName),
             };
+
+            if ($contentField->type === ContentFieldType::IMAGE_UPLOAD) {
+                $table->foreign($colName)->references('id')->on('media');
+            }
 
             $column->after($afterColumn);
         });
     }
 
-
+    /**
+     * Get the last dynamic column of the table, excluding reserved columns.
+     * Used to keep always timestamps at the end
+     */
     private function getLastDynamicColumn(string $tableName): string
     {
         $reservedColumns = ['created_at', 'updated_at', 'deleted_at'];
 
         $columns = Schema::getColumnListing($tableName);
+        $nonReserved = array_filter($columns, fn (string $col) => ! in_array($col, $reservedColumns));
 
-        // Rimuovi le colonne riservate (i timestamp in fondo)
-        $nonReserved = array_filter($columns, fn (string $col) => !in_array($col, $reservedColumns));
-
-        // L'ultima colonna non-riservata è quella dopo cui inserire
         return end($nonReserved) ?: 'id';
     }
-
 }

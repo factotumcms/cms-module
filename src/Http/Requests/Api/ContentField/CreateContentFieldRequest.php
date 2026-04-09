@@ -24,7 +24,6 @@ class CreateContentFieldRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'content_type' => 'required|string|exists:content_types,type',
             'name' => ['required', 'string', 'unique:content_fields,name'],
             'label' => ['required', 'string'],
             'type' => ['required', 'string', 'in:'.implode(',', ContentFieldType::getValues()->toArray())],

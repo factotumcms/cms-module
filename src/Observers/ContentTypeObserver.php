@@ -28,11 +28,12 @@ class ContentTypeObserver
 
     /**
      * Handle the ContentType "updated" event.
+     *
      * @throws \Exception
      */
     public function updated(ContentType $contentType): void
     {
-        if($contentType->wasChanged('type')) {
+        if ($contentType->wasChanged('type')) {
             $this->updateDynamicTable(
                 oldType: $contentType->getOriginal('type'),
                 newType: $contentType->type
@@ -42,6 +43,10 @@ class ContentTypeObserver
                 oldType: $contentType->getOriginal('type'),
                 newType: $contentType->type
             );
+        }
+
+        if ($contentType->wasChanged('hierarchical')) {
+            // todo:: to understand what to do in this situation
         }
     }
 
@@ -103,7 +108,7 @@ class ContentTypeObserver
             if (Schema::hasTable($oldTableName)) {
                 Schema::rename($oldTableName, $newTableName);
             }
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
@@ -166,7 +171,7 @@ class ContentTypeObserver
             $modelFullPath = "{$modelPath}/{$oldModelName}.php";
 
             // Dynamic model creation
-            if (!file_exists($modelFullPath)) {
+            if (! file_exists($modelFullPath)) {
                 throw new \Exception("Model {$oldModelName} does not exist");
             }
 
@@ -174,8 +179,7 @@ class ContentTypeObserver
             $this->fs->replaceInFile($oldTableName, $newTableName, $modelFullPath);
 
             $this->fs->move($modelFullPath, "{$modelPath}/{$newModelName}.php");
-
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             throw $e;
         }
     }
