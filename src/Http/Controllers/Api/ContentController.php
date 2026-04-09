@@ -22,8 +22,10 @@ final readonly class ContentController
 
     public function store(CreateContentRequest $request): ApiResponse
     {
+        $createContentDto = config('data_transfer.'.CreateContentDto::class);
+
         $content = $this->contentService->create(
-            data: CreateContentDto::from($request)->additional([
+            data: $createContentDto::from($request)->additional([
                 'user_id' => auth()->id(),
             ])
         );

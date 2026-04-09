@@ -92,7 +92,6 @@ class ContentFieldSeeder extends Seeder
                 label: 'Page Cover',
                 type: ContentFieldType::IMAGE_UPLOAD,
                 mandatory: false,
-
             )
         );
     }

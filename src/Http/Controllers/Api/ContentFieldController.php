@@ -22,13 +22,15 @@ final readonly class ContentFieldController
 
     public function store(CreateContentFieldRequest $request): ApiResponse
     {
+        $createContentFieldDto = config('data_transfer.'.CreateContentFieldDto::class);
+
         $contentType = $this->contentTypeService->getByType(
             type: $request->validated('content_type')
         );
 
         $contentField = $this->contentTypeService->createFieldForContentType(
             contentType: $contentType,
-            data: CreateContentFieldDto::from($request->validated())
+            data: $createContentFieldDto::from($request->validated())
         );
 
         return ApiResponse::make(

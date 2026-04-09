@@ -19,7 +19,7 @@ class CreateContentTypeDto extends Data
         public bool $sitemap,
         public bool $visible,
         public bool $hierarchical,
-        public Optional|null|int $orderNo = null,
+        public Optional|int $orderNo = 1,
     ) {
         $this->type = Str::lower(Str::snake($this->type));
     }

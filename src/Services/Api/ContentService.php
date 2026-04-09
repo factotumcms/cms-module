@@ -6,7 +6,6 @@ use Wave8\Factotum\Cms\Contracts\Api\ContentServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\Content\CreateContentDto;
 use Wave8\Factotum\Cms\Models\Content;
-use Wave8\Factotum\Cms\Models\ContentType;
 
 class ContentService implements ContentServiceInterface
 {
@@ -27,11 +26,6 @@ class ContentService implements ContentServiceInterface
     {
         $ct = $this->contentTypeService->single($data->contentTypeId);
 
-        return $this->createForContentType($ct, $data->toArray());
-    }
-
-    public function createForContentType(ContentType $contentType, array $data): Content
-    {
-        return $contentType->contents()->create($data);
+        return $ct->contents()->create($data->toArray());
     }
 }

@@ -16,10 +16,10 @@ return new class extends Migration
             $table->string('label', 64)->nullable()->default(null);
             $table->string('type', 32)->unique();
             $table->boolean('editable')->default(true);
-            $table->integer('order_no')->unsigned()->nullable();
+            $table->integer('order_no')->unsigned()->default(1);
             $table->string('icon', 64)->nullable();
             $table->boolean('sitemap')->default(true);
-            $table->boolean('visible')->default(true)->nullable();
+            $table->boolean('visible')->default(true);
             $table->boolean('hierarchical')->default(false);
             $table->timestamps();
         });
