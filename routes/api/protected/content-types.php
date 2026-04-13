@@ -11,4 +11,5 @@ Route::prefix('content-types')
         Route::get('{contentType}', 'read')->can('read', 'contentType');
         Route::post('', 'store')->can('create', ContentType::class);
         Route::put('{contentType}', 'update')->can('update', 'contentType');
+        Route::delete('{contentType}', 'destroy')->can('delete', 'contentType');
     });

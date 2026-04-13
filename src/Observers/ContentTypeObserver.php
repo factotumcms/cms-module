@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Wave8\Factotum\Cms\Models\ContentType;
 
-class ContentTypeObserver
+readonly class ContentTypeObserver
 {
     public function __construct(
-        private readonly Filesystem $fs
+        private Filesystem $fs
     ) {}
 
     /**
@@ -55,7 +55,7 @@ class ContentTypeObserver
      */
     public function deleted(ContentType $contentType): void
     {
-        //
+        $this->deleteDynamicTable($contentType);
     }
 
     /**
@@ -182,5 +182,11 @@ class ContentTypeObserver
         } catch (\Exception $e) {
             throw $e;
         }
+    }
+
+    private function deleteDynamicTable(ContentType $contentType): void
+    {
+        // todo:: to understand the drop logic of content type
+        Schema::dropIfExists($contentType->type);
     }
 }

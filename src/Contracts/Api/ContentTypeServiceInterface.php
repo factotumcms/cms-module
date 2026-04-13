@@ -14,4 +14,6 @@ interface ContentTypeServiceInterface
     public function update(ContentType $contentType, UpdateContentTypeDto $data): ContentType;
 
     public function getByType(ContentTypeEnum|string $type): ContentType;
+
+    public function delete(ContentType $contentType): bool;
 }

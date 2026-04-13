@@ -39,4 +39,9 @@ class ContentTypeService implements ContentTypeServiceInterface
     {
         return $this->model::where('type', $type)->firstOrFail();
     }
+
+    public function delete(ContentType $contentType): bool
+    {
+        return $contentType->delete();
+    }
 }

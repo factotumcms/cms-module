@@ -57,4 +57,11 @@ final readonly class ContentTypeController
             data: $this->contentTypeResource::from($contentType)
         );
     }
+
+    public function destroy(ContentType $contentType): ApiResponse
+    {
+        $this->contentTypeService->delete($contentType);
+
+        return ApiResponse::noContent();
+    }
 }
