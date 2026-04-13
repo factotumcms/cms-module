@@ -17,14 +17,18 @@ final readonly class ContentTypeController
 {
     public string $contentTypeResource;
 
-    public string $contentFieldResource;
-
     public function __construct(
         /** @var $contentTypeService ContentTypeService */
         private ContentTypeServiceInterface $contentTypeService,
     ) {
         $this->contentTypeResource = config('data_transfer.'.ContentTypeResource::class);
-        $this->contentFieldResource = config('data_transfer.'.ContentFieldResource::class);
+    }
+
+    public function read(ContentType $contentType): ApiResponse
+    {
+        return ApiResponse::make(
+            data: $this->contentTypeResource::from($contentType)
+        );
     }
 
     public function store(CreateContentTypeRequest $request): ApiResponse

@@ -23,7 +23,7 @@ class ContentTypePolicy
         return true;
     }
 
-    public function read(User $user): bool
+    public function read(User $user, ContentType $contentType): bool
     {
         return true;
     }

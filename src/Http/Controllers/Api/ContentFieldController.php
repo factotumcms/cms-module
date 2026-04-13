@@ -24,6 +24,17 @@ final readonly class ContentFieldController
         $this->contentFieldResource = config('data_transfer.'.ContentFieldResource::class);
     }
 
+    public function read(ContentType $contentType, ContentField $contentField): ApiResponse
+    {
+        if(!$contentType->contentFields()->where('id', $contentField->id)->exists()) {
+            return ApiResponse::notFound();
+        }
+
+        return ApiResponse::make(
+            data: $this->contentFieldResource::from($contentField)
+        );
+    }
+
     public function store(ContentType $contentType, CreateContentFieldRequest $request): ApiResponse
     {
         $createContentFieldDto = config('data_transfer.'.CreateContentFieldDto::class);
@@ -41,6 +52,10 @@ final readonly class ContentFieldController
 
     public function update(ContentType $contentType, ContentField $contentField, UpdateContentFieldRequest $request): ApiResponse
     {
+        if(!$contentType->contentFields()->where('id', $contentField->id)->exists()) {
+            return ApiResponse::notFound();
+        }
+
         $updateContentFieldDto = config('data_transfer.'.UpdateContentFieldDto::class);
 
         $contentField = $this->contentFieldService->update(

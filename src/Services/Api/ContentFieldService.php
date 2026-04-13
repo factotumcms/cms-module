@@ -18,11 +18,6 @@ class ContentFieldService implements ContentFieldServiceInterface
         $this->fs = app(Filesystem::class);
     }
 
-    public function single(int $id): ContentField
-    {
-        return $this->model::findOrFail($id);
-    }
-
     public function create(CreateContentFieldDto $data): ContentField
     {
         return $this->model::create($data->toArray());

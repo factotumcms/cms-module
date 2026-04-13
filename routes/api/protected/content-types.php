@@ -8,6 +8,7 @@ Route::prefix('content-types')
     ->controller(ContentTypeController::class)
 
     ->group(function () {
+        Route::get('{contentType}', 'read')->can('read', 'contentType');
         Route::post('', 'store')->can('create', ContentType::class);
         Route::put('{contentType}', 'update')->can('update', 'contentType');
     });
