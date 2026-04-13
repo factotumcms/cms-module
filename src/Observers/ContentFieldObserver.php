@@ -38,7 +38,7 @@ class ContentFieldObserver
      */
     public function deleted(ContentField $contentField): void
     {
-        //
+        $this->removeColumnOnDynamicTable($contentField);
     }
 
     /**
@@ -107,6 +107,15 @@ class ContentFieldObserver
         if (Schema::hasTable($tableName) && Schema::hasColumn($tableName, $oldColumn)) {
             Schema::table($tableName, function (Blueprint $table) use ($oldColumn, $newColumn) {
                 $table->renameColumn($oldColumn, $newColumn);
+            });
+        }
+    }
+
+    private function removeColumnOnDynamicTable(ContentField $contentField)
+    {
+        if (Schema::hasTable($contentField->contentType->type) && Schema::hasColumn($contentField->contentType->type, $contentField->name)) {
+            Schema::table($contentField->contentType->type, function (Blueprint $table) use ($contentField) {
+                $table->dropColumn($contentField->name);
             });
         }
     }

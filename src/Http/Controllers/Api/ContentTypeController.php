@@ -9,7 +9,6 @@ use Wave8\Factotum\Cms\Dtos\Api\ContentType\UpdateContentTypeDto;
 use Wave8\Factotum\Cms\Http\Requests\Api\ContentType\CreateContentTypeRequest;
 use Wave8\Factotum\Cms\Http\Requests\Api\ContentType\UpdateContentTypeRequest;
 use Wave8\Factotum\Cms\Models\ContentType;
-use Wave8\Factotum\Cms\Resources\Api\ContentFieldResource;
 use Wave8\Factotum\Cms\Resources\Api\ContentTypeResource;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 

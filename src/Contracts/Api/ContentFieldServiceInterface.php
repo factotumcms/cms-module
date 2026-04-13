@@ -14,4 +14,6 @@ interface ContentFieldServiceInterface
     public function update(ContentField $contentField, UpdateContentFieldDto $data): ContentField;
 
     public function createFieldForContentType(ContentType $contentType, CreateContentFieldDto $data): ContentField;
+
+    public function delete(ContentField $contentField): bool;
 }

@@ -9,7 +9,6 @@ use Wave8\Factotum\Cms\Models\ContentType;
 
 interface ContentTypeServiceInterface
 {
-
     public function create(CreateContentTypeDto $data): ContentType;
 
     public function update(ContentType $contentType, UpdateContentTypeDto $data): ContentType;

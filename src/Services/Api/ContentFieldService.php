@@ -36,4 +36,9 @@ class ContentFieldService implements ContentFieldServiceInterface
             $data->toArray()
         );
     }
+
+    public function delete(ContentField $contentField): bool
+    {
+        return $contentField->delete();
+    }
 }

@@ -28,8 +28,8 @@ class ContentFieldPolicy
         return true;
     }
 
-    public function delete(User $user): bool
+    public function delete(User $user, ContentField $contentField): bool
     {
-        return true;
+        return config('app.env') !== 'production';
     }
 }

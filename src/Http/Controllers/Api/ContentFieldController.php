@@ -2,6 +2,7 @@
 
 namespace Wave8\Factotum\Cms\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Gate;
 use Wave8\Factotum\Base\Http\Responses\Api\ApiResponse;
 use Wave8\Factotum\Cms\Contracts\Api\ContentFieldServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
@@ -26,7 +27,7 @@ final readonly class ContentFieldController
 
     public function read(ContentType $contentType, ContentField $contentField): ApiResponse
     {
-        if(!$contentType->contentFields()->where('id', $contentField->id)->exists()) {
+        if (! $contentType->contentFields()->where('id', $contentField->id)->exists()) {
             return ApiResponse::notFound();
         }
 
@@ -52,7 +53,7 @@ final readonly class ContentFieldController
 
     public function update(ContentType $contentType, ContentField $contentField, UpdateContentFieldRequest $request): ApiResponse
     {
-        if(!$contentType->contentFields()->where('id', $contentField->id)->exists()) {
+        if (! $contentType->contentFields()->where('id', $contentField->id)->exists()) {
             return ApiResponse::notFound();
         }
 
@@ -67,5 +68,16 @@ final readonly class ContentFieldController
             data: $this->contentFieldResource::from($contentField),
             status: ApiResponse::HTTP_OK
         );
+    }
+
+    public function destroy(ContentType $contentType, ContentField $contentField): ApiResponse
+    {
+        Gate::allowIf(function () use ($contentType, $contentField) {
+            return $contentType->contentFields()->where('id', $contentField->id)->exists() && $contentType->editable;
+        });
+
+        $this->contentFieldService->delete($contentField);
+
+        return ApiResponse::noContent();
     }
 }
