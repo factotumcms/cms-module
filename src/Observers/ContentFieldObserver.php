@@ -28,7 +28,9 @@ class ContentFieldObserver
      */
     public function updated(ContentField $contentField): void
     {
-        //
+        if ($contentField->wasChanged('name')) {
+            $this->updateColumnNameOnDynamicTable($contentField);
+        }
     }
 
     /**
@@ -94,5 +96,18 @@ class ContentFieldObserver
         $nonReserved = array_filter($columns, fn (string $col) => ! in_array($col, $reservedColumns));
 
         return end($nonReserved) ?: 'id';
+    }
+
+    private function updateColumnNameOnDynamicTable(ContentField $contentField): void
+    {
+        $tableName = $contentField->contentType->type;
+        $oldColumn = $contentField->getOriginal('name');
+        $newColumn = $contentField->name;
+
+        if (Schema::hasTable($tableName) && Schema::hasColumn($tableName, $oldColumn)) {
+            Schema::table($tableName, function (Blueprint $table) use ($oldColumn, $newColumn) {
+                $table->renameColumn($oldColumn, $newColumn);
+            });
+        }
     }
 }

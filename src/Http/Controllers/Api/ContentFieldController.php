@@ -5,6 +5,7 @@ namespace Wave8\Factotum\Cms\Http\Controllers\Api;
 use Wave8\Factotum\Base\Http\Responses\Api\ApiResponse;
 use Wave8\Factotum\Cms\Contracts\Api\ContentFieldServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
+use Wave8\Factotum\Cms\Dtos\Api\ContentField\UpdateContentFieldDto;
 use Wave8\Factotum\Cms\Http\Requests\Api\ContentField\CreateContentFieldRequest;
 use Wave8\Factotum\Cms\Http\Requests\Api\ContentField\UpdateContentFieldRequest;
 use Wave8\Factotum\Cms\Models\ContentField;
@@ -38,8 +39,18 @@ final readonly class ContentFieldController
         );
     }
 
-    public function update(ContentField $contentField, UpdateContentFieldRequest $request): ApiResponse
+    public function update(ContentType $contentType, ContentField $contentField, UpdateContentFieldRequest $request): ApiResponse
     {
-        dd('sfd');
+        $updateContentFieldDto = config('data_transfer.'.UpdateContentFieldDto::class);
+
+        $contentField = $this->contentFieldService->update(
+            contentField: $contentField,
+            data: $updateContentFieldDto::from($request->validated())
+        );
+
+        return ApiResponse::make(
+            data: $this->contentFieldResource::from($contentField),
+            status: ApiResponse::HTTP_OK
+        );
     }
 }

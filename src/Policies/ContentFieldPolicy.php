@@ -23,7 +23,7 @@ class ContentFieldPolicy
         return true;
     }
 
-    public function update(User $user, ContentField $contentType): bool
+    public function update(User $user, ContentField $contentField): bool
     {
         return true;
     }

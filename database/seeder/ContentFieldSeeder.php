@@ -3,21 +3,28 @@
 namespace Wave8\Factotum\Cms\Database\Seeder;
 
 use Illuminate\Database\Seeder;
+use Wave8\Factotum\Cms\Contracts\Api\ContentFieldServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
 use Wave8\Factotum\Cms\Enums\BaseContentType as BaseContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentFieldType;
 use Wave8\Factotum\Cms\Models\ContentType;
+use Wave8\Factotum\Cms\Services\Api\ContentFieldService;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 
 class ContentFieldSeeder extends Seeder
 {
     private readonly ContentTypeServiceInterface $contentTypeService;
 
+    private readonly ContentFieldService $contentFieldService;
+
     public function run(): void
     {
         /** @var ContentTypeService $service */
         $this->contentTypeService = app(ContentTypeServiceInterface::class);
+
+        /** @var ContentFieldService $service */
+        $this->contentFieldService = app(ContentFieldServiceInterface::class);
 
         $pageContentType = $this->contentTypeService->getByType(BaseContentTypeEnum::PAGES);
         $newsContentType = $this->contentTypeService->getByType(BaseContentTypeEnum::NEWS);
@@ -30,7 +37,7 @@ class ContentFieldSeeder extends Seeder
 
     private function createPageContentFields(ContentType $contentType): void
     {
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'page_template',
                 label: 'Page Template',
@@ -57,7 +64,7 @@ class ContentFieldSeeder extends Seeder
             )
         );
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'page_operation',
                 label: 'Page Operation',
@@ -72,7 +79,7 @@ class ContentFieldSeeder extends Seeder
             )
         );
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'action',
                 label: 'Action',
@@ -86,7 +93,7 @@ class ContentFieldSeeder extends Seeder
             )
         );
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'page_cover',
                 label: 'Page Cover',
@@ -103,7 +110,7 @@ class ContentFieldSeeder extends Seeder
                 ['contentField' => 'page_operation', 'operator' => '=', 'value' => 'content_list'],
             ],
         ];
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'content_type_to_list',
                 label: 'Content Type To List',
@@ -113,7 +120,7 @@ class ContentFieldSeeder extends Seeder
             )
         );
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'content_list_pagination',
                 label: 'Content List Pagination',
@@ -122,7 +129,7 @@ class ContentFieldSeeder extends Seeder
             )
         );
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'content_list_order',
                 label: 'Content List Order',
@@ -150,7 +157,7 @@ class ContentFieldSeeder extends Seeder
             ],
         ];
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'link',
                 label: 'Link',
@@ -160,7 +167,7 @@ class ContentFieldSeeder extends Seeder
             )
         );
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'link_title',
                 label: 'Link Title',
@@ -169,7 +176,7 @@ class ContentFieldSeeder extends Seeder
             )
         );
 
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'link_open_in',
                 label: 'Link Open In',
@@ -185,7 +192,7 @@ class ContentFieldSeeder extends Seeder
 
     private function createNewsContentFields(ContentType $contentType): void
     {
-        $this->contentTypeService->createFieldForContentType($contentType,
+        $this->contentFieldService->createFieldForContentType($contentType,
             new CreateContentFieldDto(
                 name: 'news_subtitle',
                 label: 'News Subtitle',
