@@ -5,6 +5,7 @@ namespace Wave8\Factotum\Cms\Policies;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Wave8\Factotum\Base\Contracts\Api\RoleServiceInterface;
 use Wave8\Factotum\Base\Models\User;
+use Wave8\Factotum\Cms\Models\ContentField;
 
 class ContentFieldPolicy
 {
@@ -22,7 +23,7 @@ class ContentFieldPolicy
         return true;
     }
 
-    public function update(User $user): bool
+    public function update(User $user, ContentField $contentType): bool
     {
         return true;
     }

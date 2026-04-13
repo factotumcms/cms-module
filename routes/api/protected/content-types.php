@@ -10,5 +10,4 @@ Route::prefix('content-types')
     ->group(function () {
         Route::post('', 'store')->can('create', ContentType::class);
         Route::put('{contentType}', 'update')->can('update', 'contentType');
-        Route::post('{contentType}/content-fields', 'createContentField')->can('update', 'contentType');
     });
