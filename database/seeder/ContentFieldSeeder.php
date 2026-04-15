@@ -9,6 +9,8 @@ use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
 use Wave8\Factotum\Cms\Enums\BaseContentType as BaseContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentFieldType;
 use Wave8\Factotum\Cms\Models\ContentType;
+use Wave8\Factotum\Cms\Resources\Models\ContentField\CfSelectConfigResource;
+use Wave8\Factotum\Cms\Resources\Models\ContentField\CfConfigResource;
 use Wave8\Factotum\Cms\Services\Api\ContentFieldService;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 
@@ -43,18 +45,22 @@ class ContentFieldSeeder extends Seeder
                 label: 'Page Template',
                 type: ContentFieldType::SELECT,
                 mandatory: true,
-                configs: [
-                    ['value' => 'home',           'label' => 'Home Page Template'],
-                    ['value' => 'basic',          'label' => 'Basic Page Template'],
-                    ['value' => 'content_list',   'label' => 'Content List Page Template'],
+                configs: CfConfigResource::from([
+                    'select' => CfSelectConfigResource::from([
+                        'options' => [
+                            ['value' => 'home',           'label' => 'Home Page Template'],
+                            ['value' => 'basic',          'label' => 'Basic Page Template'],
+                            ['value' => 'content_list',   'label' => 'Content List Page Template'],
 
-                    ['value' => 'contact_us',     'label' => 'Contact Us Page Template'],
-                    ['value' => 'thankyou_page',  'label' => 'Thank You Page Template'],
+                            ['value' => 'contact_us',     'label' => 'Contact Us Page Template'],
+                            ['value' => 'thankyou_page',  'label' => 'Thank You Page Template'],
 
-                    ['value' => 'about_us',       'label' => 'About Us Page Template'],
-                    ['value' => 'privacy_policy', 'label' => 'Privacy Policy Page Template'],
-                    ['value' => 'cookie_policy',  'label' => 'Cookie Policy Page Template'],
-                ],
+                            ['value' => 'about_us',       'label' => 'About Us Page Template'],
+                            ['value' => 'privacy_policy', 'label' => 'Privacy Policy Page Template'],
+                            ['value' => 'cookie_policy',  'label' => 'Cookie Policy Page Template'],
+                        ],
+                    ])
+                ]),
                 visibilityRules: [
                     [
                         ['contentField' => 'page_operation', 'operator' => '!=', 'value' => 'link'],
@@ -70,12 +76,15 @@ class ContentFieldSeeder extends Seeder
                 label: 'Page Operation',
                 type: ContentFieldType::SELECT,
                 mandatory: true,
-                configs: [
-                    ['value' => 'show_content', 'label' => 'Show Page Content'],
-                    ['value' => 'content_list', 'label' => 'Show Content List'],
-                    ['value' => 'link',         'label' => 'Link'],
-                    ['value' => 'action',       'label' => 'Action'],
-                ],
+                configs: CfConfigResource::from([
+                    'select' => CfSelectConfigResource::from([
+                        'options' => [
+                            ['value' => 'show_content', 'label' => 'Show Page Content'],
+                            ['value' => 'content_list', 'label' => 'Show Content List'],
+                            ['value' => 'link',         'label' => 'Link'],
+                            ['value' => 'action',       'label' => 'Action'],
+                        ]])
+                ]),
             )
         );
 
@@ -134,16 +143,20 @@ class ContentFieldSeeder extends Seeder
                 name: 'content_list_order',
                 label: 'Content List Order',
                 type: ContentFieldType::SELECT,
-                configs: [
-                    ['value' => 'contents.id-asc',          'label' => 'BY ID ASC'],
-                    ['value' => 'contents.id-desc',         'label' => 'BY ID DESC'],
-                    ['value' => 'contents.created_at-asc',  'label' => 'BY DATA CREATION ASC'],
-                    ['value' => 'contents.created_at-desc', 'label' => 'BY DATA CREATION DESC'],
-                    ['value' => 'contents.order_no-asc',    'label' => 'BY ORDER No. ASC'],
-                    ['value' => 'contents.order_no-desc',   'label' => 'BY ORDER No. DESC'],
-                    ['value' => 'contents.title-asc',       'label' => 'BY TITLE ASC'],
-                    ['value' => 'contents.title-desc',      'label' => 'BY TITLE DESC'],
-                ],
+                configs: CfConfigResource::from([
+                    'select' => CfSelectConfigResource::from([
+                        'options' => [
+                            ['value' => 'contents.id-asc',          'label' => 'BY ID ASC'],
+                            ['value' => 'contents.id-desc',         'label' => 'BY ID DESC'],
+                            ['value' => 'contents.created_at-asc',  'label' => 'BY DATA CREATION ASC'],
+                            ['value' => 'contents.created_at-desc', 'label' => 'BY DATA CREATION DESC'],
+                            ['value' => 'contents.order_no-asc',    'label' => 'BY ORDER No. ASC'],
+                            ['value' => 'contents.order_no-desc',   'label' => 'BY ORDER No. DESC'],
+                            ['value' => 'contents.title-asc',       'label' => 'BY TITLE ASC'],
+                            ['value' => 'contents.title-desc',      'label' => 'BY TITLE DESC'],
+                        ]
+                    ])
+                ]),
                 visibilityRules: $contentListRules,
             )
         );
@@ -181,10 +194,14 @@ class ContentFieldSeeder extends Seeder
                 name: 'link_open_in',
                 label: 'Link Open In',
                 type: ContentFieldType::SELECT,
-                configs: [
-                    ['value' => '_self',  'label' => 'Same Page'],
-                    ['value' => '_blank', 'label' => 'New Page'],
-                ],
+                configs: CfConfigResource::from([
+                    'select' => CfSelectConfigResource::from([
+                        'options' => [
+                            ['value' => '_self',  'label' => 'Same Page'],
+                            ['value' => '_blank', 'label' => 'New Page'],
+                        ]
+                    ])
+                ]),
                 visibilityRules: $linkRules,
             )
         );

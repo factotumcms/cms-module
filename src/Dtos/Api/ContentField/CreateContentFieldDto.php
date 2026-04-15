@@ -8,6 +8,7 @@ use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 use Spatie\LaravelData\Optional;
 use Wave8\Factotum\Cms\Enums\ContentFieldType;
+use Wave8\Factotum\Cms\Resources\Models\ContentField\CfConfigResource;
 
 #[MapName(SnakeCaseMapper::class)]
 class CreateContentFieldDto extends Data
@@ -20,7 +21,7 @@ class CreateContentFieldDto extends Data
         public bool $readonly = false,
         public Optional|string|null $hint = null,
         public Optional|int $orderNo = 1,
-        public Optional|array|null $configs = null,
+        public Optional|CfConfigResource|null $configs = null,
         public Optional|array|null $visibilityRules = null,
         public Optional|array|null $mandatoryRules = null,
     ) {

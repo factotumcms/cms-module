@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Cms\Enums\ContentFieldType;
 use Wave8\Factotum\Cms\Policies\ContentFieldPolicy;
+use Wave8\Factotum\Cms\Resources\Models\ContentField\CfConfigResource;
 
 #[UsePolicy(ContentFieldPolicy::class)]
 class ContentField extends Model
@@ -32,7 +33,7 @@ class ContentField extends Model
     protected $casts = [
         'mandatory' => 'boolean',
         'readonly' => 'boolean',
-        'configs' => 'array',
+        'configs' => CfConfigResource::class,
         'visibility_rules' => 'array',
         'mandatory_rules' => 'array',
         'type' => ContentFieldType::class,
