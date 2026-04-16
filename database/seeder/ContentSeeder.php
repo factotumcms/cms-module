@@ -12,6 +12,8 @@ use Wave8\Factotum\Cms\Dtos\Api\Content\CreateContentDto;
 use Wave8\Factotum\Cms\Enums\BaseContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
 use Wave8\Factotum\Cms\Enums\ContentStatus;
+use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
+use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
 use Wave8\Factotum\Cms\Services\Api\ContentService;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 
@@ -31,9 +33,9 @@ class ContentSeeder extends Seeder
     public function run(): void
     {
         foreach (Locale::getValues() as $locale) {
-            $this->contentService->create(
-                new CreateContentDto(
-                    contentTypeId: $this->contentTypeService->getByType(ContentTypeEnum::PAGES)->id,
+            $this->contentService->createContentForContentType(
+                contentType: $this->contentTypeService->getByType(ContentTypeEnum::PAGES),
+                data: new CreateContentDto(
                     status: ContentStatus::PUBLISHED,
                     title: 'Home',
                     editorType: ContentEditorType::BUILDER,
@@ -42,6 +44,15 @@ class ContentSeeder extends Seeder
                     lang: Locale::from($locale),
                     isHome: true,
                     userId: $this->userService->getBy('email', config('factotum_base.admin_default.email'))->first()->id,
+                    seoParams: new ContentSeoParamsResource(
+                        title: 'Home page content',
+                        description: 'Home page content',
+                        canonicalUrl: 'homepage',
+                    ),
+                    socialParams: new ContentSocialParamsResource(
+                        fbTitle: 'Fb page content',
+                        fbDescription: 'Fb page content'
+                    )
                 )
             );
         }

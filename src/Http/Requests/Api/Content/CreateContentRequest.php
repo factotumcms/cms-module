@@ -33,6 +33,10 @@ class CreateContentRequest extends FormRequest
             'url' => ['required', 'string'],
             'abs_url' => ['required', 'string', 'unique:contents,abs_url'],
             'lang' => ['required', 'string', new ContentLangRule],
+            'seo_params' => ['sometimes', 'array'],
+            'seo_params.*' => ['sometimes', 'string'],
+            'social_params' => ['sometimes', 'array'],
+            'social_params.*' => ['sometimes', 'string'],
         ];
 
         return $rules;

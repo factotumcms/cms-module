@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Cms\Casts\ContentContentCast;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
 use Wave8\Factotum\Cms\Policies\ContentPolicy;
+use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
+use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
 
 #[UsePolicy(ContentPolicy::class)]
 class Content extends Model
@@ -33,15 +35,8 @@ class Content extends Model
         'show_in_menu',
         'is_home',
         'order_no',
-        'seo_title',
-        'seo_description',
-        'seo_canonical_url',
-        'seo_robots_indexing',
-        'seo_robots_following',
-        'seo_focus_key',
-        'fb_title',
-        'fb_description',
-        'fb_image',
+        'seo_params',
+        'social_params',
         'created_at',
         'updated_at',
     ];
@@ -52,6 +47,8 @@ class Content extends Model
         'builder' => 'array',
         'content' => ContentContentCast::class,
         'editor_type' => ContentEditorType::class,
+        'seo_params' => ContentSeoParamsResource::class,
+        'social_params' => ContentSocialParamsResource::class,
     ];
 
     protected $searchable = [

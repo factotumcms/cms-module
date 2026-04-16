@@ -30,16 +30,8 @@ return new class extends Migration
             $table->boolean('is_home')->default(false);
             $table->integer('order_no')->default(0);
 
-            $table->string('seo_title', 70)->nullable();
-            $table->text('seo_description')->nullable();
-            $table->string('seo_canonical_url', 255)->nullable();
-            $table->string('seo_robots_indexing', 10)->default('index')->nullable();
-            $table->string('seo_robots_following', 10)->default('follow')->nullable();
-            $table->string('seo_focus_key', 255)->nullable();
-
-            $table->string('fb_title', 255)->nullable();
-            $table->string('fb_description', 255)->nullable();
-            $table->integer('fb_image')->nullable();
+            $table->json('seo_params')->nullable();
+            $table->json('social_params')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

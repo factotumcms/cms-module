@@ -9,6 +9,8 @@ use Spatie\LaravelData\Optional;
 use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
 use Wave8\Factotum\Cms\Enums\ContentStatus;
+use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
+use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
 
 #[MapName(SnakeCaseMapper::class)]
 class CreateContentDto extends Data
@@ -25,6 +27,8 @@ class CreateContentDto extends Data
         public Optional|bool $isHome = false,
         public Optional|null|int $userId = null,
         public Optional|null|int $parentId = null,
+        public ContentSeoParamsResource $seoParams = new ContentSeoParamsResource,
+        public ContentSocialParamsResource $socialParams = new ContentSocialParamsResource,
     ) {
         $this->absUrl = '/'.$this->lang->value.'/'.$this->url;
     }
