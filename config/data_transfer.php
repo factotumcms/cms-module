@@ -1,6 +1,7 @@
 <?php
 
 use Wave8\Factotum\Cms\Dtos\Api\Content\CreateContentDto;
+use Wave8\Factotum\Cms\Dtos\Api\Content\UpdateContentDto;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\CreateContentFieldDto;
 use Wave8\Factotum\Cms\Dtos\Api\ContentField\UpdateContentFieldDto;
 use Wave8\Factotum\Cms\Dtos\Api\ContentType\CreateContentTypeDto;
@@ -16,6 +17,7 @@ return [
     CreateContentTypeDto::class => CreateContentTypeDto::class,
     UpdateContentTypeDto::class => UpdateContentTypeDto::class,
     UpdateContentFieldDto::class => UpdateContentFieldDto::class,
+    UpdateContentDto::class => UpdateContentDto::class,
 
     // Resources Bindings
     ContentTypeResource::class => ContentTypeResource::class,
