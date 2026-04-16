@@ -14,7 +14,3 @@ Route::prefix('content-types/{contentType}')->group(function () {
             Route::delete('{contentField}', 'destroy')->can('delete', 'contentField');
         });
 });
-
-Route::prefix('content-fields')
-    ->controller(ContentFieldController::class)
-    ->group(function () {});

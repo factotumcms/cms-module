@@ -26,13 +26,11 @@ class CreateContentRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'content_type_id' => ['required', 'int', 'exists:content_types,id'],
-            'parent_id' => ['sometimes', 'int', 'exists:contents,id'],
             'status' => ['required', 'string', new ContentStatusRule],
             'title' => ['required', 'string'],
             'editor_type' => ['required', 'string', new ContentEditorTypeRule],
             'content' => ['required', 'string'],
-            'url' => ['required', 'string', 'unique:contents,url'],
+            'url' => ['required', 'string'],
             'abs_url' => ['required', 'string', 'unique:contents,abs_url'],
             'lang' => ['required', 'string', new ContentLangRule],
         ];

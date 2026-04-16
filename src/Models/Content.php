@@ -2,6 +2,7 @@
 
 namespace Wave8\Factotum\Cms\Models;
 
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,7 +11,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Cms\Casts\ContentContentCast;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
+use Wave8\Factotum\Cms\Policies\ContentPolicy;
 
+#[UsePolicy(ContentPolicy::class)]
 class Content extends Model
 {
     use SoftDeletes;

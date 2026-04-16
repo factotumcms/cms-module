@@ -18,8 +18,8 @@ class CfConfigResource extends Resource
         public ?string $hint = null,
     ) {}
 
-    //Please note:: overridden from method because when casting ContentField->config->cfParams, laravel doesn't know which type to cast to, so we need to handle it manually here.
-    //cfParams is a different object based on the type of the content field, so we need to check the presence of options key to determine which type it is and cast accordingly.
+    // Please note:: overridden from method because when casting ContentField->config->cfParams, laravel doesn't know which type to cast to, so we need to handle it manually here.
+    // cfParams is a different object based on the type of the content field, so we need to check the presence of options key to determine which type it is and cast accordingly.
     public static function from(mixed ...$payloads): static
     {
         $data = $payloads[0] ?? [];

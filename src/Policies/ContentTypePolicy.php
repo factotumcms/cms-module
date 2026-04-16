@@ -18,6 +18,11 @@ class ContentTypePolicy
         return true;
     }
 
+    public function createContent(User $user): bool
+    {
+        return true;
+    }
+
     public function createContentField(User $user): bool
     {
         return true;

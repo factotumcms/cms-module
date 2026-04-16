@@ -16,7 +16,6 @@ class CreateContentDto extends Data
     public string $absUrl;
 
     public function __construct(
-        public int $contentTypeId,
         public ContentStatus $status,
         public string $title,
         public ContentEditorType $editorType,
