@@ -16,7 +16,6 @@ class ContentFieldResource extends Resource
         public string $name,
         public string $label,
         public ContentFieldType $type,
-        public CfConfigResource $configs,
-        public bool $mandatory,
+        public CfConfigResource $configs
     ) {}
 }
