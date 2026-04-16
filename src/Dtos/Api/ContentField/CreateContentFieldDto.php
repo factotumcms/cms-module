@@ -17,13 +17,8 @@ class CreateContentFieldDto extends Data
         public string $name,
         public string $label,
         public ContentFieldType $type,
-        public bool $mandatory = false,
-        public bool $readonly = false,
-        public Optional|string|null $hint = null,
         public Optional|int $orderNo = 1,
-        public Optional|CfConfigResource|null $configs = null,
-        public Optional|array|null $visibilityRules = null,
-        public Optional|array|null $mandatoryRules = null,
+        public CfConfigResource $configs = new CfConfigResource,
     ) {
         $this->name = Str::lower(Str::snake($this->name));
     }

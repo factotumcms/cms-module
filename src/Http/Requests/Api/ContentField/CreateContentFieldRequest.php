@@ -28,14 +28,8 @@ class CreateContentFieldRequest extends FormRequest
             'label' => ['required', 'string'],
             'type' => ['required', 'string', 'in:'.implode(',', ContentFieldType::getValues()->toArray())],
 
-            'hint' => ['nullable', 'string'],
-            'visibility_rules' => ['nullable', 'string'],
-            'mandatory_rules' => ['nullable', 'string'],
             'configs' => ['nullable', 'array'],
-
             'order_no' => ['sometimes', 'int'],
-            'mandatory' => ['sometimes', 'boolean'],
-            'readonly' => ['sometimes', 'boolean'],
         ];
     }
 }

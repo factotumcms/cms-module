@@ -21,21 +21,11 @@ class ContentField extends Model
         'label',
         'type',
         'order_no',
-        'mandatory',
-        'readonly',
-        'hint',
         'configs',
-
-        'visibility_rules',
-        'mandatory_rules',
     ];
 
     protected $casts = [
-        'mandatory' => 'boolean',
-        'readonly' => 'boolean',
         'configs' => CfConfigResource::class,
-        'visibility_rules' => 'array',
-        'mandatory_rules' => 'array',
         'type' => ContentFieldType::class,
     ];
 

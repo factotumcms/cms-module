@@ -16,13 +16,8 @@ class UpdateContentFieldDto extends Data
         // Safe fields
         public Optional|string $label,
         public Optional|ContentFieldType $type,
-        public Optional|bool $mandatory,
-        public Optional|bool $readonly,
-        public Optional|string|null $hint = null,
         public Optional|int $orderNo,
         public Optional|array|null $configs = null,
-        public Optional|array|null $visibilityRules = null,
-        public Optional|array|null $mandatoryRules = null,
 
         // Critical fields
         public Optional|string $name,
