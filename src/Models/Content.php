@@ -58,7 +58,7 @@ class Content extends Model
         'content',
     ];
 
-    public function content_type(): BelongsTo
+    public function contentType(): BelongsTo
     {
         return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
     }

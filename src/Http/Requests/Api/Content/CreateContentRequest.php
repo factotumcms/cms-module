@@ -25,7 +25,7 @@ class CreateContentRequest extends FormRequest
      */
     public function rules(): array
     {
-        $rules = [
+        return [
             'status' => ['required', 'string', new ContentStatusRule],
             'title' => ['required', 'string'],
             'editor_type' => ['required', 'string', new ContentEditorTypeRule],
@@ -33,12 +33,14 @@ class CreateContentRequest extends FormRequest
             'url' => ['required', 'string'],
             'abs_url' => ['required', 'string', 'unique:contents,abs_url'],
             'lang' => ['required', 'string', new ContentLangRule],
+            'show_in_menu' => ['sometimes', 'boolean'],
+            'is_home' => ['sometimes', 'boolean'],
+            'order_no' => ['sometimes', 'integer'],
+            'is_visible' => ['sometimes', 'boolean'],
             'seo_params' => ['sometimes', 'array'],
             'seo_params.*' => ['sometimes', 'string'],
             'social_params' => ['sometimes', 'array'],
             'social_params.*' => ['sometimes', 'string'],
         ];
-
-        return $rules;
     }
 }

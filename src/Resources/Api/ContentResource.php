@@ -24,6 +24,7 @@ class ContentResource extends Resource
         public Locale $lang,
         public bool $showInMenu,
         public bool $isHome,
+        public bool $isVisible,
         public int $orderNo,
         public ContentSeoParamsResource $seoParams,
         public ContentSocialParamsResource $socialParams,

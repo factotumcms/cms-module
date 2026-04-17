@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('lang', 5);
             $table->boolean('show_in_menu')->default(false);
             $table->boolean('is_home')->default(false);
+            $table->boolean('is_visible')->default(false);
             $table->integer('order_no')->default(0);
 
             $table->json('seo_params')->nullable();
