@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Casts\ContentContentCast;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
 use Wave8\Factotum\Cms\Policies\ContentPolicy;
@@ -49,6 +50,7 @@ class Content extends Model
         'editor_type' => ContentEditorType::class,
         'seo_params' => ContentSeoParamsResource::class,
         'social_params' => ContentSocialParamsResource::class,
+        'locale' => Locale::class,
     ];
 
     protected $searchable = [

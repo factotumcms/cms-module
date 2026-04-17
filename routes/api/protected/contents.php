@@ -10,7 +10,7 @@ Route::prefix('content-types/{contentType}')->group(function () {
         ->group(function () {
             Route::post('', 'store')->can('createContent', 'contentType');
             Route::put('{content}', 'update')->can('update', 'content');
-            //            Route::get('{contentField}', 'read')->can('read', 'contentField');
-            //            Route::delete('{contentField}', 'destroy')->can('delete', 'contentField');
+            Route::get('{content}', 'read')->can('read', 'content');
+            Route::delete('{content}', 'destroy')->can('delete', 'content');
         });
 });

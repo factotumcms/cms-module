@@ -2,6 +2,7 @@
 
 namespace Wave8\Factotum\Cms\Http\Controllers\Api;
 
+use Illuminate\Support\Facades\Gate;
 use Wave8\Factotum\Base\Http\Responses\Api\ApiResponse;
 use Wave8\Factotum\Cms\Contracts\Api\ContentServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\Content\CreateContentDto;
@@ -22,6 +23,17 @@ final readonly class ContentController
         private ContentServiceInterface $contentService,
     ) {
         $this->contentResource = config('data_transfer.'.ContentResource::class);
+    }
+
+    public function read(ContentType $contentType, Content $content): ApiResponse
+    {
+        if (! $contentType->contents()->where('id', $content->id)->exists()) {
+            return ApiResponse::notFound();
+        }
+
+        return ApiResponse::make(
+            data: $this->contentResource::from($content)
+        );
     }
 
     public function store(CreateContentRequest $request, ContentType $contentType): ApiResponse
@@ -57,5 +69,16 @@ final readonly class ContentController
             data: $this->contentResource::from($content),
             status: ApiResponse::HTTP_OK
         );
+    }
+
+    public function destroy(ContentType $contentType, Content $content): ApiResponse
+    {
+        Gate::allowIf(function () use ($contentType, $content) {
+            return $contentType->contents()->where('id', $content->id)->exists();
+        });
+
+        $this->contentService->delete($content);
+
+        return ApiResponse::noContent();
     }
 }

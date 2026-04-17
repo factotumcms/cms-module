@@ -28,4 +28,9 @@ readonly class ContentService implements ContentServiceInterface
 
         return $content;
     }
+
+    public function delete(Content $content): bool
+    {
+        return $content->delete();
+    }
 }

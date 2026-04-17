@@ -14,4 +14,6 @@ interface ContentServiceInterface
     public function createContentForContentType(ContentType $contentType, CreateContentDto $data): Content;
 
     public function update(Content $content, UpdateContentDto $data): Content;
+
+    public function delete(Content $content): bool;
 }
