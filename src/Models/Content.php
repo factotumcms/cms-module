@@ -35,6 +35,7 @@ class Content extends Model
         'lang',
         'show_in_menu',
         'is_home',
+        'is_visible',
         'order_no',
         'seo_params',
         'social_params',
@@ -45,6 +46,7 @@ class Content extends Model
     protected $casts = [
         'show_in_menu' => 'boolean',
         'is_home' => 'boolean',
+        'is_visible' => 'boolean',
         'builder' => 'array',
         'content' => ContentContentCast::class,
         'editor_type' => ContentEditorType::class,

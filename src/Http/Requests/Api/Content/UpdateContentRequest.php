@@ -38,6 +38,7 @@ class UpdateContentRequest extends FormRequest
             'seo_params.*' => ['sometimes', 'string'],
             'social_params' => ['sometimes', 'array'],
             'social_params.*' => ['sometimes', 'string'],
+            'fields' => ['sometimes', 'array'],
         ];
     }
 }

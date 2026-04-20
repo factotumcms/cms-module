@@ -32,6 +32,7 @@ class UpdateContentDto extends Data
         public Optional|null|int $parentId = null,
         public Optional|ContentSeoParamsResource $seoParams = new ContentSeoParamsResource,
         public Optional|ContentSocialParamsResource $socialParams = new ContentSocialParamsResource,
+        public Optional|array $fields = []
     ) {
         $this->absUrl = '/'.$this->lang->value.'/'.$this->url;
     }

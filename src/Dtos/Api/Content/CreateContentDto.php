@@ -32,6 +32,7 @@ class CreateContentDto extends Data
         public Optional|null|int $parentId = null,
         public ContentSeoParamsResource $seoParams = new ContentSeoParamsResource,
         public ContentSocialParamsResource $socialParams = new ContentSocialParamsResource,
+        public Optional|array $fields = []
     ) {
         $this->absUrl = '/'.$this->lang->value.'/'.$this->url;
     }

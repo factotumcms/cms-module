@@ -7,6 +7,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Wave8\Factotum\Cms\Models\Content;
 use Wave8\Factotum\Cms\Models\ContentType;
 
 readonly class ContentTypeObserver
@@ -86,7 +87,7 @@ readonly class ContentTypeObserver
             if (! Schema::hasTable($tableName)) {
                 Schema::create($tableName, function (Blueprint $table) {
                     $table->increments('id');
-                    $table->foreignId('content_id')->cascadeOnDelete();
+                    $table->foreignIdFor(Content::class, 'content_id')->cascadeOnDelete();
                     $table->timestamps();
                     $table->softDeletes();
                 });

@@ -32,7 +32,9 @@ final readonly class ContentController
         }
 
         return ApiResponse::make(
-            data: $this->contentResource::from($content)
+            data: $this->contentResource::from($content)->additional([
+                'fields' => $this->contentService->getDynamicFields($content),
+            ])
         );
     }
 

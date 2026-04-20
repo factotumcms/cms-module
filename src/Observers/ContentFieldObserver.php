@@ -72,8 +72,8 @@ class ContentFieldObserver
 
                 ContentFieldType::IMAGE_UPLOAD => $table->unsignedBigInteger($colName)->nullable(),
 
-                ContentFieldType::CHECKBOX => $table->boolean($colName),
-                ContentFieldType::NUMBER => $table->integer($colName),
+                ContentFieldType::CHECKBOX => $table->boolean($colName)->default(false),
+                ContentFieldType::NUMBER => $table->integer($colName)->default(0),
             };
 
             if ($contentField->type === ContentFieldType::IMAGE_UPLOAD) {

@@ -16,4 +16,6 @@ interface ContentServiceInterface
     public function update(Content $content, UpdateContentDto $data): Content;
 
     public function delete(Content $content): bool;
+
+    public function getDynamicFields(Content $content): array;
 }
