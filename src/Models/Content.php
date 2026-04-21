@@ -15,10 +15,12 @@ use Wave8\Factotum\Cms\Enums\ContentEditorType;
 use Wave8\Factotum\Cms\Policies\ContentPolicy;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
+use Wave8\Factotum\Cms\Traits\HasTranslations;
 
 #[UsePolicy(ContentPolicy::class)]
 class Content extends Model
 {
+    use HasTranslations;
     use SoftDeletes;
 
     protected $fillable = [

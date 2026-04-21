@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Policies\TermPolicy;
+use Wave8\Factotum\Cms\Traits\HasTranslations;
 
 #[UsePolicy(TermPolicy::class)]
 class Term extends Model
 {
+    use HasTranslations;
     use SoftDeletes;
 
     protected $fillable = [

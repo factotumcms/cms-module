@@ -10,11 +10,13 @@ use Wave8\Factotum\Cms\Dtos\Api\Taxonomy\CreateTaxonomyDto;
 use Wave8\Factotum\Cms\Dtos\Api\Taxonomy\UpdateTaxonomyDto;
 use Wave8\Factotum\Cms\Dtos\Api\Term\CreateTermDto;
 use Wave8\Factotum\Cms\Dtos\Api\Term\UpdateTermDto;
+use Wave8\Factotum\Cms\Dtos\Api\Translation\LinkTranslationDto;
 use Wave8\Factotum\Cms\Resources\Api\ContentFieldResource;
 use Wave8\Factotum\Cms\Resources\Api\ContentResource;
 use Wave8\Factotum\Cms\Resources\Api\ContentTypeResource;
 use Wave8\Factotum\Cms\Resources\Api\TaxonomyResource;
 use Wave8\Factotum\Cms\Resources\Api\TermResource;
+use Wave8\Factotum\Cms\Resources\Api\TranslationResource;
 
 return [
     // Dto Bindings
@@ -28,6 +30,7 @@ return [
     UpdateTaxonomyDto::class => UpdateTaxonomyDto::class,
     CreateTermDto::class => CreateTermDto::class,
     UpdateTermDto::class => UpdateTermDto::class,
+    LinkTranslationDto::class => LinkTranslationDto::class,
 
     // Resources Bindings
     ContentTypeResource::class => ContentTypeResource::class,
@@ -35,4 +38,5 @@ return [
     ContentResource::class => ContentResource::class,
     TaxonomyResource::class => TaxonomyResource::class,
     TermResource::class => TermResource::class,
+    TranslationResource::class => TranslationResource::class,
 ];
