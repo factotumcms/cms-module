@@ -6,9 +6,13 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Wave8\Factotum\Cms\Contracts\Api\ContentFieldServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\ContentServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
+use Wave8\Factotum\Cms\Contracts\Api\TaxonomyServiceInterface;
+use Wave8\Factotum\Cms\Contracts\Api\TermServiceInterface;
 use Wave8\Factotum\Cms\Services\Api\ContentFieldService;
 use Wave8\Factotum\Cms\Services\Api\ContentService;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
+use Wave8\Factotum\Cms\Services\Api\TaxonomyService;
+use Wave8\Factotum\Cms\Services\Api\TermService;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -21,5 +25,7 @@ class ServiceProvider extends LaravelServiceProvider
         $this->app->singleton(ContentTypeServiceInterface::class, ContentTypeService::class);
         $this->app->singleton(ContentFieldServiceInterface::class, ContentFieldService::class);
         $this->app->singleton(ContentServiceInterface::class, ContentService::class);
+        $this->app->singleton(TaxonomyServiceInterface::class, TaxonomyService::class);
+        $this->app->singleton(TermServiceInterface::class, TermService::class);
     }
 }

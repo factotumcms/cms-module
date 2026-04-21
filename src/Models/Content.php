@@ -5,9 +5,9 @@ namespace Wave8\Factotum\Cms\Models;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Casts\ContentContentCast;
@@ -70,9 +70,9 @@ class Content extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function categories(): BelongsToMany
+    public function terms(): MorphToMany
     {
-        return $this->belongsToMany(Category::class)->withTimestamps();
+        return $this->morphToMany(Term::class, 'termable')->withTimestamps();
     }
 
     public function parent(): BelongsTo

@@ -4,6 +4,7 @@ namespace Wave8\Factotum\Cms\Models;
 
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Cms\Policies\ContentTypePolicy;
@@ -40,9 +41,11 @@ class ContentType extends Model
         return $this->hasMany(ContentField::class);
     }
 
-    public function categories(): HasMany
+    public function taxonomies(): BelongsToMany
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsToMany(Taxonomy::class, 'content_type_taxonomy')
+            ->withPivot(['is_required', 'allow_multiple'])
+            ->withTimestamps();
     }
 
     public function contents(): HasMany
