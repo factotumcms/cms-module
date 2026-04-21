@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ContentFieldSeeder::class,
             ContentSeeder::class,
             LanguageSeeder::class,
+            TaxonomySeeder::class,
         ]);
     }
 }
