@@ -19,7 +19,7 @@ trait HasTranslations
         return $this->translation?->translation_group;
     }
 
-    public function translations(): Collection
+    public function translatedSiblings(): Collection
     {
         $group = $this->translationGroup();
 

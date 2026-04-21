@@ -15,7 +15,6 @@ class ContentTypeService implements ContentTypeServiceInterface
 {
     public function __construct(public readonly ContentType $model)
     {
-        $this->fs = app(Filesystem::class);
     }
 
     public function single(int $id): ContentType

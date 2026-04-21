@@ -34,6 +34,6 @@ class UpdateContentDto extends Data
         public Optional|ContentSocialParamsResource $socialParams = new ContentSocialParamsResource,
         public Optional|array $fields = []
     ) {
-        $this->absUrl = '/'.$this->lang->value.'/'.$this->url;
+//        $this->absUrl = '/'.$this->lang->value.'/'.$this->url; //causa crash, capire come gestire
     }
 }

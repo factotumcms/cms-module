@@ -22,9 +22,9 @@ return new class extends Migration
             $table->string('status', 25);
             $table->string('title', 255);
             $table->string('editor_type', 32)->default(ContentEditorType::BUILDER);
-            $table->longText('content');
+            $table->longText('content')->nullable();
             $table->string('url', 191);
-            $table->string('abs_url', 191)->unique();
+            $table->string('abs_url', 191);
             $table->string('lang', 5);
             $table->boolean('show_in_menu')->default(false);
             $table->boolean('is_home')->default(false);
@@ -36,6 +36,8 @@ return new class extends Migration
 
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['abs_url', 'lang']);
         });
     }
 

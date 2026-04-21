@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Casts\ContentContentCast;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
+use Wave8\Factotum\Cms\Enums\ContentStatus;
 use Wave8\Factotum\Cms\Policies\ContentPolicy;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
@@ -40,9 +41,7 @@ class Content extends Model
         'is_visible',
         'order_no',
         'seo_params',
-        'social_params',
-        'created_at',
-        'updated_at',
+        'social_params'
     ];
 
     protected $casts = [
@@ -54,7 +53,8 @@ class Content extends Model
         'editor_type' => ContentEditorType::class,
         'seo_params' => ContentSeoParamsResource::class,
         'social_params' => ContentSocialParamsResource::class,
-        'locale' => Locale::class,
+        'lang' => Locale::class,
+        'status' => ContentStatus::class
     ];
 
     protected $searchable = [
@@ -67,9 +67,9 @@ class Content extends Model
         return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
     }
 
-    public function user(): HasOne
+    public function user(): BelongsTo
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'id', 'user_id');
     }
 
     public function terms(): MorphToMany

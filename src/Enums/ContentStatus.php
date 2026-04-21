@@ -8,5 +8,8 @@ enum ContentStatus: string
 {
     use ListCases;
     case DRAFT = 'draft';
+    case PENDING = 'pending';
+    case REVIEW = 'review';
     case PUBLISHED = 'published';
+
 }

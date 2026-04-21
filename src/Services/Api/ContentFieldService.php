@@ -15,7 +15,6 @@ class ContentFieldService implements ContentFieldServiceInterface
 {
     public function __construct(public readonly ContentField $model)
     {
-        $this->fs = app(Filesystem::class);
     }
 
     public function create(CreateContentFieldDto $data): ContentField

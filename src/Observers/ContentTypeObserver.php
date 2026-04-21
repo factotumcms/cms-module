@@ -166,7 +166,7 @@ readonly class ContentTypeObserver
             $oldTableName = Str::lower(Str::snake($oldType));
             $newTableName = Str::lower(Str::snake($newType));
             $oldModelName = Str::ucfirst(Str::pascal($oldType));
-            $newModelName = Str::ucfirst(Str::camel($newType));
+            $newModelName = Str::ucfirst(Str::pascal($newType));
             $modelPath = app_path('/Models');
 
             $modelFullPath = "{$modelPath}/{$oldModelName}.php";
@@ -188,6 +188,6 @@ readonly class ContentTypeObserver
     private function deleteDynamicTable(ContentType $contentType): void
     {
         // todo:: to understand the drop logic of content type
-        Schema::dropIfExists($contentType->type);
+        Schema::dropIfExists(Str::lower(Str::snake($contentType->type)));
     }
 }
