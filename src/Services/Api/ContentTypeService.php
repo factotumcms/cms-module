@@ -3,7 +3,6 @@
 namespace Wave8\Factotum\Cms\Services\Api;
 
 use AllowDynamicProperties;
-use Illuminate\Filesystem\Filesystem;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\ContentType\CreateContentTypeDto;
 use Wave8\Factotum\Cms\Dtos\Api\ContentType\UpdateContentTypeDto;
@@ -13,9 +12,7 @@ use Wave8\Factotum\Cms\Models\ContentType;
 #[AllowDynamicProperties]
 class ContentTypeService implements ContentTypeServiceInterface
 {
-    public function __construct(public readonly ContentType $model)
-    {
-    }
+    public function __construct(public readonly ContentType $model) {}
 
     public function single(int $id): ContentType
     {

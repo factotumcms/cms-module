@@ -11,5 +11,4 @@ enum ContentStatus: string
     case PENDING = 'pending';
     case REVIEW = 'review';
     case PUBLISHED = 'published';
-
 }

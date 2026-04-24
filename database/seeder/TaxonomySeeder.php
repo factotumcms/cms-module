@@ -7,6 +7,7 @@ use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\TaxonomyServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\TermServiceInterface;
+use Wave8\Factotum\Cms\Contracts\Api\TranslationServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\Taxonomy\CreateTaxonomyDto;
 use Wave8\Factotum\Cms\Dtos\Api\Term\CreateTermDto;
 use Wave8\Factotum\Cms\Enums\BaseContentType;
@@ -14,6 +15,7 @@ use Wave8\Factotum\Cms\Models\Content;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
 use Wave8\Factotum\Cms\Services\Api\TaxonomyService;
 use Wave8\Factotum\Cms\Services\Api\TermService;
+use Wave8\Factotum\Cms\Services\Api\TranslationService;
 
 class TaxonomySeeder extends Seeder
 {
@@ -26,41 +28,55 @@ class TaxonomySeeder extends Seeder
 
         /** @var ContentTypeService $contentTypeService */
         private readonly ContentTypeServiceInterface $contentTypeService,
+
+        /** @var TranslationService $translationService */
+        private readonly TranslationServiceInterface $translationService,
     ) {}
 
     public function run(): void
     {
-        // Create the "Categorie" taxonomy (hierarchical)
         $taxonomy = $this->taxonomyService->create(
             new CreateTaxonomyDto(
-                name: 'categories',
+                name: 'page-category',
                 label: 'Categorie',
                 isHierarchical: true,
             )
         );
 
-        // Associate it with both content types
-        $pages = $this->contentTypeService->getByType(BaseContentType::PAGES);
-        $news = $this->contentTypeService->getByType(BaseContentType::NEWS);
+        $ct = $this->contentTypeService->getByType(BaseContentType::PAGES);
+        $this->taxonomyService->attachToContentType($taxonomy, $ct, isRequired: false, allowMultiple: true);
 
-        $this->taxonomyService->attachToContentType($taxonomy, $pages, isRequired: false, allowMultiple: true);
-        $this->taxonomyService->attachToContentType($taxonomy, $news, isRequired: false, allowMultiple: true);
+        $termIt = $this->termService->createForTaxonomy(
+            taxonomy: $taxonomy,
+            data: new CreateTermDto(
+                name: 'Categoria test',
+                lang: Locale::IT,
+            )
+        );
 
-        // Create the "Categoria test" term for each locale
-        foreach (Locale::getValues() as $locale) {
-            $term = $this->termService->createForTaxonomy(
-                taxonomy: $taxonomy,
-                data: new CreateTermDto(
-                    name: 'Categoria test',
-                    lang: Locale::from($locale),
-                )
-            );
-
-            // Attach the term to all existing contents in this locale
-            $contents = Content::where('lang', $locale)->get();
-            foreach ($contents as $content) {
-                $this->termService->syncTermsToModel($content, [$term->id]);
-            }
+        $contents = Content::where('lang', Locale::IT->value)->get();
+        foreach ($contents as $content) {
+            $this->termService->syncTermsToModel($content, [$termIt->id]);
         }
+
+        $termEn = $this->termService->createForTaxonomy(
+            taxonomy: $taxonomy,
+            data: new CreateTermDto(
+                name: 'Test category',
+                lang: Locale::EN,
+            )
+        );
+
+        $contents = Content::where('lang', Locale::EN->value)->get();
+        foreach ($contents as $content) {
+            $this->termService->syncTermsToModel($content, [$termEn->id]);
+        }
+
+        $this->translationService->link(
+            source: $termIt,
+            target: $termEn,
+            sourceLocale: Locale::IT,
+            targetLocale: Locale::EN,
+        );
     }
 }

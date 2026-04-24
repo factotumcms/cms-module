@@ -144,6 +144,7 @@ readonly class TranslationService implements TranslationServiceInterface
 
         return Translation::forGroup($translation->translation_group)
             ->pluck('locale')
+            ->map(fn (Locale $locale) => $locale->value)
             ->toArray();
     }
 

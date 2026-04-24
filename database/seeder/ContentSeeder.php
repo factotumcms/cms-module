@@ -8,6 +8,7 @@ use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Base\Services\Api\UserService;
 use Wave8\Factotum\Cms\Contracts\Api\ContentServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\ContentTypeServiceInterface;
+use Wave8\Factotum\Cms\Contracts\Api\TranslationServiceInterface;
 use Wave8\Factotum\Cms\Dtos\Api\Content\CreateContentDto;
 use Wave8\Factotum\Cms\Enums\BaseContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
@@ -32,29 +33,59 @@ class ContentSeeder extends Seeder
 
     public function run(): void
     {
-        foreach (Locale::getValues() as $locale) {
-            $this->contentService->createContentForContentType(
-                contentType: $this->contentTypeService->getByType(ContentTypeEnum::PAGES),
-                data: new CreateContentDto(
-                    status: ContentStatus::PUBLISHED,
-                    title: 'Home',
-                    editorType: ContentEditorType::BUILDER,
-                    content: 'Home page content',
-                    url: 'homepage',
-                    lang: Locale::from($locale),
-                    isHome: true,
-                    userId: $this->userService->getBy('email', config('factotum_base.admin_default.email'))->first()->id,
-                    seoParams: new ContentSeoParamsResource(
-                        title: 'Home page content',
-                        description: 'Home page content',
-                        canonicalUrl: 'homepage',
-                    ),
-                    socialParams: new ContentSocialParamsResource(
-                        fbTitle: 'Fb page content',
-                        fbDescription: 'Fb page content'
-                    )
+        $contentIt = $this->contentService->createContentForContentType(
+            contentType: $this->contentTypeService->getByType(ContentTypeEnum::PAGES),
+            data: new CreateContentDto(
+                status: ContentStatus::PUBLISHED,
+                title: 'Home',
+                editorType: ContentEditorType::BUILDER,
+                content: 'Home page contenuto',
+                url: 'homepage',
+                lang: Locale::from('it'),
+                isHome: true,
+                userId: $this->userService->getBy('email', config('factotum_base.admin_default.email'))->first()->id,
+                seoParams: new ContentSeoParamsResource(
+                    title: 'Home page content',
+                    description: 'Home page content',
+                    canonicalUrl: 'homepage',
+                ),
+                socialParams: new ContentSocialParamsResource(
+                    fbTitle: 'Fb page content',
+                    fbDescription: 'Fb page content'
                 )
-            );
-        }
+            )
+        );
+
+        $contentEn = $this->contentService->createContentForContentType(
+            contentType: $this->contentTypeService->getByType(ContentTypeEnum::PAGES),
+            data: new CreateContentDto(
+                status: ContentStatus::PUBLISHED,
+                title: 'Home',
+                editorType: ContentEditorType::BUILDER,
+                content: 'Home page content',
+                url: 'homepage',
+                lang: Locale::from('en'),
+                isHome: true,
+                userId: $this->userService->getBy('email', config('factotum_base.admin_default.email'))->first()->id,
+                seoParams: new ContentSeoParamsResource(
+                    title: 'Home page content',
+                    description: 'Home page content',
+                    canonicalUrl: 'homepage',
+                ),
+                socialParams: new ContentSocialParamsResource(
+                    fbTitle: 'Fb page content',
+                    fbDescription: 'Fb page content'
+                )
+            )
+        );
+
+        $translationService = app(TranslationServiceInterface::class);
+
+        $translationService->link(
+            source: $contentIt,
+            target: $contentEn,
+            sourceLocale: Locale::IT,
+            targetLocale: Locale::EN,
+        );
     }
 }

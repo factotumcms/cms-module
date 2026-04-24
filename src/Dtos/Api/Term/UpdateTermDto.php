@@ -14,7 +14,7 @@ class UpdateTermDto extends Data
         public Optional|string $name,
         public Optional|string $slug,
         public Optional|null|string $description,
-        public Optional|null|int $parentId,
+        public ?int $parentId,
         public Optional|int $sortOrder,
     ) {}
 }

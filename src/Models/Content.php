@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Base\Enums\Locale;
@@ -41,7 +40,7 @@ class Content extends Model
         'is_visible',
         'order_no',
         'seo_params',
-        'social_params'
+        'social_params',
     ];
 
     protected $casts = [
@@ -54,7 +53,7 @@ class Content extends Model
         'seo_params' => ContentSeoParamsResource::class,
         'social_params' => ContentSocialParamsResource::class,
         'lang' => Locale::class,
-        'status' => ContentStatus::class
+        'status' => ContentStatus::class,
     ];
 
     protected $searchable = [
