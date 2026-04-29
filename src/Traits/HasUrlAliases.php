@@ -22,4 +22,3 @@ trait HasUrlAliases
         return $this->canonicalUrl()?->uri;
     }
 }
-

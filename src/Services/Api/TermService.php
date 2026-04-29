@@ -21,7 +21,6 @@ readonly class TermService implements TermServiceInterface
 
     public function createForTaxonomy(Taxonomy $taxonomy, CreateTermDto $data): Term
     {
-
         if ($data->parentId && ! $this->isValidParent($taxonomy, $data->parentId)) {
             throw new \InvalidArgumentException('Parent term does not belong to the same taxonomy.');
         }

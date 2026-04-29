@@ -68,4 +68,3 @@ class ContentUrlAliasObserver
         return '/'.trim($content->abs_url, '/');
     }
 }
-

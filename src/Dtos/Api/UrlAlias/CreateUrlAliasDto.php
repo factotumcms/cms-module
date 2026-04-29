@@ -20,4 +20,3 @@ class CreateUrlAliasDto extends Data
         $this->uri = '/'.trim($this->uri, '/');
     }
 }
-

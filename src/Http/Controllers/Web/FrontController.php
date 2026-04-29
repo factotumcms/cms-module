@@ -2,16 +2,14 @@
 
 namespace Wave8\Factotum\Cms\Http\Controllers\Web;
 
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Base\Http\Responses\Api\ApiResponse;
 use Wave8\Factotum\Cms\Contracts\Api\ContentServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\UrlAliasServiceInterface;
+use Wave8\Factotum\Cms\Enums\BaseContentType;
+use Wave8\Factotum\Cms\Enums\PageOperation;
 use Wave8\Factotum\Cms\Models\Content;
 use Wave8\Factotum\Cms\Models\ContentType;
 use Wave8\Factotum\Cms\Models\Term;
-use Wave8\Factotum\Cms\Resources\Api\ContentResource;
 use Wave8\Factotum\Cms\Resources\Api\ContentTypeResource;
 use Wave8\Factotum\Cms\Resources\Api\TermResource;
 use Wave8\Factotum\Cms\Resources\Api\UrlAliasResource;
@@ -32,18 +30,18 @@ final readonly class FrontController
      * Resolve a URI path to its routable entity.
      * Returns the entity data, a 301 redirect, or a 404.
      */
-    public function __invoke(string $path): ApiResponse|JsonResponse|RedirectResponse
+    public function __invoke(string $path): mixed
     {
         $uri = '/'.trim($path, '/');
-        $locale = app()->getLocale();
 
-        $alias = $this->urlAliasService->resolve($uri, $locale);
+        $alias = $this->urlAliasService->resolve($uri);
 
         if (! $alias) {
             abort(404);
         }
 
         // Handle 301 redirect
+        // todo:: capire come gestire
         if ($alias->redirect_to) {
             return response()->json([
                 'redirect' => true,
@@ -72,13 +70,9 @@ final readonly class FrontController
             return ApiResponse::notFound();
         }
 
-        switch(get_class($routable)) {
+        switch (get_class($routable)) {
             case Content::class:
-                $type = 'content';
-                $entity = ContentResource::from($routable)->additional([
-                    'fields' => $this->contentService->getDynamicFields($routable),
-                ]);
-                break;
+                return $this->handleContentClass($routable);
             case Term::class:
                 $type = 'term';
                 $entity = TermResource::from($routable);
@@ -96,9 +90,27 @@ final readonly class FrontController
             data: [
                 'type' => $type,
                 'alias' => UrlAliasResource::from($alias),
-                'entity' => $entity
+                'entity' => $entity,
             ]
         );
     }
-}
 
+    private function handleContentClass(Content $routable): mixed
+    {
+        $fields = $this->contentService->getDynamicFields($routable);
+
+        if ($routable->contentType->type == BaseContentType::PAGES->value) {
+            switch ($fields['page_operation']) {
+                case PageOperation::SHOW_CONTENT->value:
+                    return response()->view($fields['page_template'], ['content' => $routable, 'fields' => $fields]);
+                case PageOperation::CONTENT_LIST->value:
+                case PageOperation::LINK->value:
+                case PageOperation::ACTION->value:
+                    // todo:: to handle them
+                    break;
+            }
+        }
+
+        return null;
+    }
+}

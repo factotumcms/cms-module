@@ -12,14 +12,12 @@ readonly class UrlAliasService implements UrlAliasServiceInterface
 {
     public function __construct(public UrlAlias $model) {}
 
-    public function resolve(string $uri, Locale|string $locale): ?UrlAlias
+    public function resolve(string $uri): ?UrlAlias
     {
         $normalizedUri = '/'.trim($uri, '/');
-        $localeValue = $locale instanceof Locale ? $locale->value : $locale;
 
         return $this->model::query()
             ->forUri($normalizedUri)
-            ->forLocale($localeValue)
             ->with('routable')
             ->first();
     }
@@ -136,4 +134,3 @@ readonly class UrlAliasService implements UrlAliasServiceInterface
             ->update(['is_canonical' => false]);
     }
 }
-

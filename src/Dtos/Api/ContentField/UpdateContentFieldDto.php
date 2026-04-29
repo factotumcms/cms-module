@@ -17,7 +17,7 @@ class UpdateContentFieldDto extends Data
         public Optional|string $label,
         public Optional|ContentFieldType $type,
         public Optional|int $orderNo,
-        public Optional|array|null $configs = null,
+        public Optional|array|null $configs,
 
         // Critical fields
         public Optional|string $name,

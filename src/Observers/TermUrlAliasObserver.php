@@ -93,4 +93,3 @@ class TermUrlAliasObserver
         return '/'.trim($taxonomySlug.'/'.$hierarchicalPath, '/');
     }
 }
-

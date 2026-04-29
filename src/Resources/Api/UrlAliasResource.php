@@ -23,4 +23,3 @@ class UrlAliasResource extends Resource
         public string $updatedAt,
     ) {}
 }
-

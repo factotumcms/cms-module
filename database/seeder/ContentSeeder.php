@@ -13,6 +13,7 @@ use Wave8\Factotum\Cms\Dtos\Api\Content\CreateContentDto;
 use Wave8\Factotum\Cms\Enums\BaseContentType as ContentTypeEnum;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
 use Wave8\Factotum\Cms\Enums\ContentStatus;
+use Wave8\Factotum\Cms\Enums\PageOperation;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
 use Wave8\Factotum\Cms\Services\Api\ContentService;
@@ -39,7 +40,7 @@ class ContentSeeder extends Seeder
                 status: ContentStatus::PUBLISHED,
                 title: 'Home',
                 editorType: ContentEditorType::BUILDER,
-                content: 'Home page contenuto',
+                content: '<h2>Home page contenuto</h2><br><p>Lorem ipsum è un testo segnaposto</p>',
                 url: 'homepage',
                 lang: Locale::from('it'),
                 isHome: true,
@@ -52,7 +53,11 @@ class ContentSeeder extends Seeder
                 socialParams: new ContentSocialParamsResource(
                     fbTitle: 'Fb page content',
                     fbDescription: 'Fb page content'
-                )
+                ),
+                fields: [
+                    'page_template' => 'basic',
+                    'page_operation' => PageOperation::SHOW_CONTENT,
+                ]
             )
         );
 
@@ -62,7 +67,7 @@ class ContentSeeder extends Seeder
                 status: ContentStatus::PUBLISHED,
                 title: 'Home',
                 editorType: ContentEditorType::BUILDER,
-                content: 'Home page content',
+                content: '<h2>Home page content</h2><br><p>Lorem ipsum is a placeholder text</p>',
                 url: 'homepage',
                 lang: Locale::from('en'),
                 isHome: true,
@@ -75,7 +80,11 @@ class ContentSeeder extends Seeder
                 socialParams: new ContentSocialParamsResource(
                     fbTitle: 'Fb page content',
                     fbDescription: 'Fb page content'
-                )
+                ),
+                fields: [
+                    'page_template' => 'basic',
+                    'page_operation' => PageOperation::SHOW_CONTENT,
+                ]
             )
         );
 

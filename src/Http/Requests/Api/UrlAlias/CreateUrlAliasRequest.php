@@ -24,4 +24,3 @@ class CreateUrlAliasRequest extends FormRequest
         ];
     }
 }
-

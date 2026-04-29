@@ -12,7 +12,7 @@ interface UrlAliasServiceInterface
     /**
      * Resolve a URI to a UrlAlias.
      */
-    public function resolve(string $uri, Locale|string $locale): ?UrlAlias;
+    public function resolve(string $uri): ?UrlAlias;
 
     /**
      * Create a URL alias for a routable entity.
@@ -44,4 +44,3 @@ interface UrlAliasServiceInterface
      */
     public function delete(UrlAlias $alias): bool;
 }
-

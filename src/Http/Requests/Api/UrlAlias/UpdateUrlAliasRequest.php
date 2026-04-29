@@ -20,4 +20,3 @@ class UpdateUrlAliasRequest extends FormRequest
         ];
     }
 }
-

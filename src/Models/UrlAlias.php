@@ -57,4 +57,3 @@ class UrlAlias extends Model
             ->where('routable_id', $routable->id);
     }
 }
-

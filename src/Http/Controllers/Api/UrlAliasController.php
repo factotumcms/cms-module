@@ -115,4 +115,3 @@ final readonly class UrlAliasController
         );
     }
 }
-

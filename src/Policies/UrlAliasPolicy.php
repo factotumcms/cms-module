@@ -33,4 +33,3 @@ class UrlAliasPolicy
         return true;
     }
 }
-

@@ -14,4 +14,3 @@ Route::prefix('url-aliases')
         // Get all aliases for a specific routable entity
         Route::get('for/{type}/{id}', 'forRoutable');
     });
-
