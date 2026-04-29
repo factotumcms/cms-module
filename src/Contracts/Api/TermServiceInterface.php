@@ -3,6 +3,7 @@
 namespace Wave8\Factotum\Cms\Contracts\Api;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Wave8\Factotum\Cms\Dtos\Api\Term\CreateTermDto;
 use Wave8\Factotum\Cms\Dtos\Api\Term\UpdateTermDto;
 use Wave8\Factotum\Cms\Models\Taxonomy;
@@ -21,4 +22,6 @@ interface TermServiceInterface
     public function syncTermsToModel(Model $model, array $termIds): void;
 
     public function detachTermFromModel(Model $model, Term $term): void;
+
+    public function getTree(Taxonomy $taxonomy): Collection;
 }

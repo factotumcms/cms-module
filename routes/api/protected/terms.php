@@ -8,6 +8,7 @@ Route::prefix('taxonomies/{taxonomy}')->group(function () {
         ->controller(TermController::class)
 
         ->group(function () {
+            Route::get('tree', 'tree');
             Route::post('', 'store')->can('createTerm', 'taxonomy');
             Route::get('{term}', 'read')->can('read', 'term');
             Route::put('{term}', 'update')->can('update', 'term');

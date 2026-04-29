@@ -5,9 +5,9 @@ namespace Wave8\Factotum\Cms\Models;
 use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kalnoy\Nestedset\NodeTrait;
 use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Casts\ContentContentCast;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
@@ -16,11 +16,14 @@ use Wave8\Factotum\Cms\Policies\ContentPolicy;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
 use Wave8\Factotum\Cms\Traits\HasTranslations;
+use Wave8\Factotum\Cms\Traits\HasUrlAliases;
 
 #[UsePolicy(ContentPolicy::class)]
 class Content extends Model
 {
     use HasTranslations;
+    use HasUrlAliases;
+    use NodeTrait;
     use SoftDeletes;
 
     protected $fillable = [
@@ -61,6 +64,14 @@ class Content extends Model
         'content',
     ];
 
+    /**
+     * Scope the nested set tree per content type.
+     */
+    protected function getScopeAttributes(): array
+    {
+        return ['content_type_id'];
+    }
+
     public function contentType(): BelongsTo
     {
         return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
@@ -76,13 +87,16 @@ class Content extends Model
         return $this->morphToMany(Term::class, 'termable')->withTimestamps();
     }
 
-    public function parent(): BelongsTo
+    /**
+     * Build the hierarchical URL path for this content.
+     * Example: "chi-siamo/il-team" for a nested page.
+     */
+    public function buildHierarchicalPath(): string
     {
-        return $this->belongsTo(Content::class, 'parent_id');
-    }
+        $ancestors = $this->ancestors()->defaultOrder()->get();
 
-    public function children(): HasMany
-    {
-        return $this->hasMany(Content::class, 'parent_id', 'id');
+        $segments = $ancestors->pluck('url')->push($this->url);
+
+        return $segments->implode('/');
     }
 }

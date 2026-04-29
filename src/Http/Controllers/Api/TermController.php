@@ -111,4 +111,16 @@ final readonly class TermController
             data: $this->termResource::collect($content->terms)
         );
     }
+
+    /**
+     * Get the full tree of terms for a taxonomy.
+     */
+    public function tree(Taxonomy $taxonomy): ApiResponse
+    {
+        $tree = $this->termService->getTree($taxonomy);
+
+        return ApiResponse::make(
+            data: $this->termResource::collect($tree)
+        );
+    }
 }

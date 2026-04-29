@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Cms\Policies\ContentTypePolicy;
+use Wave8\Factotum\Cms\Traits\HasUrlAliases;
 
 #[UsePolicy(ContentTypePolicy::class)]
 class ContentType extends Model
 {
+    use HasUrlAliases;
     use SoftDeletes;
 
     protected $fillable = [

@@ -15,7 +15,7 @@ readonly class ContentService implements ContentServiceInterface
 
     public function single(int $id): Content
     {
-        return $this->model::findOrFail($id);
+        return Content::findOrFail($id);
     }
 
     public function createContentForContentType(ContentType $contentType, CreateContentDto $data): Content
@@ -23,24 +23,50 @@ readonly class ContentService implements ContentServiceInterface
         $contentFields = $data->fields;
         unset($data->fields);
 
-        $content = $contentType->contents()->create($data->toArray());
+        $attributes = $data->toArray();
+        $attributes['content_type_id'] = $contentType->id;
+        unset($attributes['parent_id']);
+
+        $content = new Content($attributes);
+
+        if (! empty($data->parentId)) {
+            $parent = Content::findOrFail($data->parentId);
+            $parent->appendNode($content);
+        } else {
+            $content->saveAsRoot();
+        }
 
         if (! empty($contentFields)) {
             $this->updateDynamicFields($content, $contentFields);
         }
 
-        return $content;
+        return $content->fresh();
     }
 
     public function update(Content $content, UpdateContentDto $data): Content
     {
-        $content->update($data->toArray());
+        $parentChanged = isset($data->parentId) && $data->parentId !== $content->parent_id;
+
+        $updateData = $data->toArray();
+        unset($updateData['parent_id']);
+
+        $content->update($updateData);
+
+        // Handle parent change via nestedset
+        if ($parentChanged) {
+            if ($data->parentId) {
+                $newParent = Content::findOrFail($data->parentId);
+                $content->appendToNode($newParent)->save();
+            } else {
+                $content->makeRoot()->save();
+            }
+        }
 
         if (! empty($data->fields)) {
             $this->updateDynamicFields($content, $data->fields);
         }
 
-        return $content;
+        return $content->fresh();
     }
 
     public function delete(Content $content): bool

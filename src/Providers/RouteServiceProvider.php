@@ -27,6 +27,12 @@ class RouteServiceProvider extends LaravelRouteServiceProvider
                     $this->registerProtectedApiRoutes();
                     $this->registerPublicApiRoutes();
                 });
+
+            Route::group([
+                'middleware' => ['web', SetLocale::class],
+            ], function () {
+                $this->mapRoutes(__DIR__.'/../../routes/web/public');
+            });
         });
     }
 

@@ -7,6 +7,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 use Spatie\LaravelData\Resource;
 use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Enums\ContentEditorType;
+use Wave8\Factotum\Cms\Enums\ContentStatus;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSeoParamsResource;
 use Wave8\Factotum\Cms\Resources\Models\Content\ContentSocialParamsResource;
 
@@ -15,7 +16,7 @@ class ContentResource extends Resource
 {
     public function __construct(
         public int $id,
-        public string $status,
+        public ContentStatus $status,
         public string $title,
         public ContentEditorType $editor_type,
         public string $content,

@@ -9,4 +9,8 @@ final class DynamicModel extends Model
 {
     use SoftDeletes;
     public $table = 'dynamic_model';
+
+    protected $fillable = [
+        'content_id',
+    ];
 }

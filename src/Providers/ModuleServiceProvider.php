@@ -4,10 +4,14 @@ namespace Wave8\Factotum\Cms\Providers;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Wave8\Factotum\Cms\Console\Commands\Install;
+use Wave8\Factotum\Cms\Models\Content;
 use Wave8\Factotum\Cms\Models\ContentField;
 use Wave8\Factotum\Cms\Models\ContentType;
+use Wave8\Factotum\Cms\Models\Term;
 use Wave8\Factotum\Cms\Observers\ContentFieldObserver;
 use Wave8\Factotum\Cms\Observers\ContentTypeObserver;
+use Wave8\Factotum\Cms\Observers\ContentUrlAliasObserver;
+use Wave8\Factotum\Cms\Observers\TermUrlAliasObserver;
 
 class ModuleServiceProvider extends LaravelServiceProvider
 {
@@ -56,5 +60,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     {
         ContentType::observe(ContentTypeObserver::class);
         ContentField::observe(ContentFieldObserver::class);
+        Content::observe(ContentUrlAliasObserver::class);
+        Term::observe(TermUrlAliasObserver::class);
     }
 }
