@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('redirect_to', 2048)->nullable();
 
             $table->timestamps();
-            $table->softDeletes();
 
             $table->unique(['uri', 'locale']);
             $table->index(['routable_type', 'routable_id', 'locale']);

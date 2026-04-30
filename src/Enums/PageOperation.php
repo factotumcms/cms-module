@@ -9,6 +9,4 @@ enum PageOperation: string
     use ListCases;
     case SHOW_CONTENT = 'show_content';
     case CONTENT_LIST = 'content_list';
-    case LINK = 'link';
-    case ACTION = 'action';
 }

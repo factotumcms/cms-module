@@ -19,7 +19,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     {
         // Register DI services
         $this->app->register(ServiceProvider::class);
-        //
+
         // Register app required service providers
         $this->app->register(ConfigServiceProvider::class);
         $this->app->register(LangServiceProvider::class);
@@ -34,6 +34,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     {
         $this->configurePublishing();
         $this->configureObservers();
+        $this->loadViewsFrom(__DIR__.'/../../resources/views', 'factotum_cms');
     }
 
     public function registerCommands(): void

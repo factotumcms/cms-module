@@ -10,6 +10,7 @@ use Wave8\Factotum\Cms\Enums\PageOperation;
 use Wave8\Factotum\Cms\Models\Content;
 use Wave8\Factotum\Cms\Models\ContentType;
 use Wave8\Factotum\Cms\Models\Term;
+use Wave8\Factotum\Cms\Models\UrlAlias;
 use Wave8\Factotum\Cms\Resources\Api\ContentTypeResource;
 use Wave8\Factotum\Cms\Resources\Api\TermResource;
 use Wave8\Factotum\Cms\Resources\Api\UrlAliasResource;
@@ -41,13 +42,8 @@ final readonly class FrontController
         }
 
         // Handle 301 redirect
-        // todo:: capire come gestire
         if ($alias->redirect_to) {
-            return response()->json([
-                'redirect' => true,
-                'redirect_to' => $alias->redirect_to,
-                'status' => 301,
-            ], 301);
+            return redirect($alias->redirect_to, 301);
         }
 
         // Handle non-canonical: return canonical URL for the client
@@ -72,43 +68,41 @@ final readonly class FrontController
 
         switch (get_class($routable)) {
             case Content::class:
-                return $this->handleContentClass($routable);
+                return $this->handleContentClass($alias);
             case Term::class:
-                $type = 'term';
+                // todo:: capire come si vuole gestire
                 $entity = TermResource::from($routable);
                 break;
             case ContentType::class:
-                $type = 'content_type';
+                // todo:: capire come si vuole gestire
                 $entity = ContentTypeResource::from($routable);
                 break;
-            default:
-                $type = 'unknown';
-                $entity = null;
         }
 
         return ApiResponse::make(
             data: [
-                'type' => $type,
+                'type' => get_class($routable),
                 'alias' => UrlAliasResource::from($alias),
-                'entity' => $entity,
+                'entity' => $entity ?? null,
             ]
         );
     }
 
-    private function handleContentClass(Content $routable): mixed
+    public function handleContentClass(UrlAlias $alias): mixed
     {
-        $fields = $this->contentService->getDynamicFields($routable);
+        $fields = $this->contentService->getDynamicFields($alias->routable);
 
-        if ($routable->contentType->type == BaseContentType::PAGES->value) {
+        if ($alias->routable->contentType->type == BaseContentType::PAGES->value) {
             switch ($fields['page_operation']) {
                 case PageOperation::SHOW_CONTENT->value:
-                    return response()->view($fields['page_template'], ['content' => $routable, 'fields' => $fields]);
+                    return response()->view('factotum_cms::'.$fields['page_template'], ['content' => $alias->routable, 'fields' => $fields]);
                 case PageOperation::CONTENT_LIST->value:
-                case PageOperation::LINK->value:
-                case PageOperation::ACTION->value:
-                    // todo:: to handle them
-                    break;
+                    return response()->view('factotum_cms::content-list', ['content' => $alias->routable, 'fields' => $fields]);
             }
+        }
+
+        if ($alias->routable->contentType->type == BaseContentType::NEWS->value) {
+            return response()->view('factotum_cms::news', ['content' => $alias->routable, 'fields' => $fields]);
         }
 
         return null;

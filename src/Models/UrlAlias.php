@@ -6,15 +6,12 @@ use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Wave8\Factotum\Base\Enums\Locale;
 use Wave8\Factotum\Cms\Policies\UrlAliasPolicy;
 
 #[UsePolicy(UrlAliasPolicy::class)]
 class UrlAlias extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
         'uri',
         'routable_type',
