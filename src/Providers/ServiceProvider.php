@@ -10,6 +10,7 @@ use Wave8\Factotum\Cms\Contracts\Api\TaxonomyServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\TermServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\TranslationServiceInterface;
 use Wave8\Factotum\Cms\Contracts\Api\UrlAliasServiceInterface;
+use Wave8\Factotum\Cms\Contracts\SitemapGeneratorServiceInterface;
 use Wave8\Factotum\Cms\Services\Api\ContentFieldService;
 use Wave8\Factotum\Cms\Services\Api\ContentService;
 use Wave8\Factotum\Cms\Services\Api\ContentTypeService;
@@ -17,6 +18,7 @@ use Wave8\Factotum\Cms\Services\Api\TaxonomyService;
 use Wave8\Factotum\Cms\Services\Api\TermService;
 use Wave8\Factotum\Cms\Services\Api\TranslationService;
 use Wave8\Factotum\Cms\Services\Api\UrlAliasService;
+use Wave8\Factotum\Cms\Services\SitemapGeneratorService;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -33,5 +35,8 @@ class ServiceProvider extends LaravelServiceProvider
         $this->app->singleton(TermServiceInterface::class, TermService::class);
         $this->app->singleton(TranslationServiceInterface::class, TranslationService::class);
         $this->app->singleton(UrlAliasServiceInterface::class, UrlAliasService::class);
+
+        // Sitemap Service
+        $this->app->singleton(SitemapGeneratorServiceInterface::class, SitemapGeneratorService::class);
     }
 }

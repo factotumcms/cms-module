@@ -2,7 +2,9 @@
 
 namespace Wave8\Factotum\Cms\Providers;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use Wave8\Factotum\Cms\Console\Commands\DispatchGenerateSitemap;
 use Wave8\Factotum\Cms\Console\Commands\Install;
 use Wave8\Factotum\Cms\Models\Content;
 use Wave8\Factotum\Cms\Models\ContentField;
@@ -34,6 +36,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     {
         $this->configurePublishing();
         $this->configureObservers();
+        $this->configureScheduling();
         $this->loadViewsFrom(__DIR__.'/../../resources/views', 'factotum_cms');
     }
 
@@ -41,6 +44,7 @@ class ModuleServiceProvider extends LaravelServiceProvider
     {
         $this->commands([
             Install::class,
+            DispatchGenerateSitemap::class,
         ]);
     }
 
@@ -63,5 +67,14 @@ class ModuleServiceProvider extends LaravelServiceProvider
         ContentField::observe(ContentFieldObserver::class);
         Content::observe(ContentUrlAliasObserver::class);
         Term::observe(TermUrlAliasObserver::class);
+    }
+
+    private function configureScheduling(): void
+    {
+        $this->app->afterResolving(Schedule::class, function (Schedule $schedule) {
+            if (config('factotum_cms.sitemap.enabled', true)) {
+                $schedule->command('factotum-cms:generate-sitemap --sync')->daily();
+            }
+        });
     }
 }
