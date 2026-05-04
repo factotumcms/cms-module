@@ -59,11 +59,14 @@ final class Install extends Command
         }
 
         try {
+            //Install Factotum base first
+            Artisan::call('factotum-base:install');
+
             $this->publishConfigs();
 
             $this->publishMigrations();
 
-            $this->publishModels();
+
             $this->publishProviders();
 
             collect([
@@ -186,21 +189,6 @@ EOT);
     private function getMigrationPath(string $name): ?string
     {
         return head($this->files->glob(join_paths(database_path('migrations'), "*_{$name}"))) ?: null;
-    }
-
-    private function publishModels(): void
-    {
-        if (! $this->option('force') &&
-            ! confirm('Would you like to publish the Factotum Cms models to your application?')
-        ) {
-            warning(<<<'EOT'
-Remember to extend the Factotum Base models in your application and customize them as needed.
-EOT);
-
-            return;
-        }
-
-        //        $this->files->copy(__DIR__.'/../../../stubs/app/Models/User.php', app_path('Models/User.php'));
     }
 
     private function publishProviders(): void
