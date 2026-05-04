@@ -59,8 +59,6 @@ final class Install extends Command
         }
 
         try {
-            //Install Factotum base first
-            Artisan::call('factotum-base:install');
 
             $this->publishConfigs();
 
