@@ -95,7 +95,14 @@ final readonly class FrontController
         if ($alias->routable->contentType->type == BaseContentType::PAGES->value) {
             switch ($fields['page_operation']) {
                 case PageOperation::SHOW_CONTENT->value:
-                    return response()->view('factotum_cms::'.$fields['page_template'], ['content' => $alias->routable, 'fields' => $fields]);
+                    $viewName = $fields['page_template'] ?: 'basic';
+
+                    // Prima cerca nella app principale, poi fallback al package
+                    $template = view()->exists($viewName)
+                        ? $viewName
+                        : 'factotum_cms::'.$viewName;
+
+                    return response()->view($template, ['content' => $alias->routable, 'fields' => $fields]);
                 case PageOperation::CONTENT_LIST->value:
                     return response()->view('factotum_cms::content-list', ['content' => $alias->routable, 'fields' => $fields]);
             }

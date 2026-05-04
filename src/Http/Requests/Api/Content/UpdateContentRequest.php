@@ -5,6 +5,7 @@ namespace Wave8\Factotum\Cms\Http\Requests\Api\Content;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Wave8\Factotum\Cms\Enums\PageOperation;
 use Wave8\Factotum\Cms\Rules\Content\ContentEditorTypeRule;
 use Wave8\Factotum\Cms\Rules\Content\ContentLangRule;
 use Wave8\Factotum\Cms\Rules\Content\ContentStatusRule;
@@ -26,6 +27,8 @@ class UpdateContentRequest extends FormRequest
      */
     public function rules(): array
     {
+        $pageOperations = implode(',', PageOperation::getValues()->toArray());
+
         return [
             'status' => ['sometimes', 'string', new ContentStatusRule],
             'title' => ['sometimes', 'string'],
@@ -39,6 +42,7 @@ class UpdateContentRequest extends FormRequest
             'social_params' => ['sometimes', 'array'],
             'social_params.*' => ['sometimes', 'string'],
             'fields' => ['sometimes', 'array'],
+            'fields.page_operation' => ['sometimes', 'in:'.$pageOperations],
         ];
     }
 }
