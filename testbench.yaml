@@ -2,6 +2,7 @@ laravel: '@testbench'
 
 providers:
   - Wave8\Factotum\Base\Providers\ModuleServiceProvider
+  - Wave8\Factotum\Cms\Providers\ModuleServiceProvider
 
 migrations:
   - database/migrations
@@ -27,6 +28,7 @@ workbench:
   assets:
     - translation-loader-migrations
     - permission-migrations
+    - factotum-cms-migrations
   sync:
     - from: storage
       to: workbench/storage
