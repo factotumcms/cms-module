@@ -102,14 +102,14 @@ final readonly class FrontController
                         ? $viewName
                         : 'factotum_cms::'.$viewName;
 
-                    return response()->view($template, ['content' => $alias->routable, 'fields' => $fields]);
+                    return response()->view($template, ['page' => $alias->routable, 'fields' => $fields]);
                 case PageOperation::CONTENT_LIST->value:
-                    return response()->view('factotum_cms::content-list', ['content' => $alias->routable, 'fields' => $fields]);
+                    return response()->view('factotum_cms::content-list', ['page' => $alias->routable, 'fields' => $fields]);
             }
         }
 
         if ($alias->routable->contentType->type == BaseContentType::NEWS->value) {
-            return response()->view('factotum_cms::news', ['content' => $alias->routable, 'fields' => $fields]);
+            return response()->view('factotum_cms::news', ['page' => $alias->routable, 'fields' => $fields]);
         }
 
         return null;
